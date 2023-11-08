@@ -60,17 +60,13 @@ public class MemberRequest {
         @Email(message = "이메일 형식이 올바르지 않습니다.")
         private String email;
 
-        @NotBlank(message = "이름을 입력해주세요.")
         private String name;
 
-        @NotBlank(message = "휴대폰 번호를 입력해주세요.")
         @Pattern(regexp = "^010-?([0-9]{4})-?([0-9]{4})$", message = "휴대폰 번호 형식이 올바르지 않습니다.")
         private String phoneNumber;
 
-        @NotBlank(message = "도시를 입력해주세요.")
         private String city;
 
-        @NotBlank(message = "도로를 입력해주세요.")
         private String street;
 
         @Pattern(regexp = "\\d{5}", message = "우편번호 형식이 올바르지 않습니다.")

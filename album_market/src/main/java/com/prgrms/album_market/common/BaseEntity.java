@@ -1,4 +1,4 @@
-package com.prgrms.album_market.base;
+package com.prgrms.album_market.common;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

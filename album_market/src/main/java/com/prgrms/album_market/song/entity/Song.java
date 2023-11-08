@@ -1,7 +1,7 @@
 package com.prgrms.album_market.song.entity;
 
 import com.prgrms.album_market.album.entity.Album;
-import com.prgrms.album_market.base.BaseEntity;
+import com.prgrms.album_market.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

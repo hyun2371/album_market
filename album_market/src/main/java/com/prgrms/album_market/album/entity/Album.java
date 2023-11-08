@@ -1,6 +1,6 @@
 package com.prgrms.album_market.album.entity;
 
-import com.prgrms.album_market.base.BaseEntity;
+import com.prgrms.album_market.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

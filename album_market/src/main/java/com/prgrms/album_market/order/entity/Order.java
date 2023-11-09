@@ -23,9 +23,11 @@ public class Order extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "album_id")
     private Album album;
 
     private Integer totalPrice;

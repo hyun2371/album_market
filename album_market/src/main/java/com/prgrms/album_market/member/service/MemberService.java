@@ -1,6 +1,6 @@
 package com.prgrms.album_market.member.service;
 
-import com.prgrms.album_market.common.exception.ElementNotFoundExcpetion;
+import com.prgrms.album_market.common.exception.CustomException;
 import com.prgrms.album_market.member.dto.MemberMapper;
 import com.prgrms.album_market.member.entity.Member;
 import com.prgrms.album_market.member.repository.MemberRepository;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.prgrms.album_market.common.exception.ErrorCode.NOT_EXIST_MEMBER_ID;
+import static com.prgrms.album_market.common.exception.ErrorCode.*;
 import static com.prgrms.album_market.member.dto.MemberMapper.*;
 import static com.prgrms.album_market.member.dto.MemberRequest.*;
 import static com.prgrms.album_market.member.dto.MemberResponse.*;
@@ -21,6 +21,10 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public ResponseEntity<SignUpRes> signUp(SignUpReq request){
+        memberRepository.findByEmail(request.getEmail())
+                .ifPresent(m -> {
+                    throw new CustomException(ALREADY_EXIST_EMAIL);
+                });
         Member savedMember = memberRepository.save(MemberMapper.toMember(request));
         return ResponseEntity.ok(toSignUpRes(savedMember));
     }
@@ -58,6 +62,6 @@ public class MemberService {
 
     private Member getMemberEntity(Long memberId) {
         return memberRepository.findById(memberId)
-                .orElseThrow(() -> new ElementNotFoundExcpetion(NOT_EXIST_MEMBER_ID.getMessage()));
+                .orElseThrow(() -> new CustomException(NOT_EXIST_MEMBER_ID));
     }
 }

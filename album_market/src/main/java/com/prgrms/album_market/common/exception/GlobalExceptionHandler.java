@@ -20,12 +20,15 @@ public class GlobalExceptionHandler {
             String defaultMessage = x.getDefaultMessage();
             errorResponses.add(new ErrorResponse(ErrorCode.matchErrorCode(defaultMessage)));
         }
-        return ResponseEntity.ok(errorResponses);
+        return ResponseEntity
+                .badRequest()
+                .body(errorResponses);
     }
 
     @ExceptionHandler
-    protected ResponseEntity<ErrorResponse> handleNotFound(ElementNotFoundExcpetion ex) {
-        return ResponseEntity.ok(new ErrorResponse(ErrorCode.matchErrorCode(ex.getMessage())));
+    protected ResponseEntity<ErrorResponse> handleNotFound(CustomException ex) {
+        return ResponseEntity
+                .badRequest()
+                .body(new ErrorResponse(ex.getErrorCode()));
     }
-
 }

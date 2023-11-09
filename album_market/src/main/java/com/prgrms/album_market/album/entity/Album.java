@@ -1,18 +1,25 @@
 package com.prgrms.album_market.album.entity;
 
 import com.prgrms.album_market.common.BaseEntity;
+import com.prgrms.album_market.common.exception.CustomException;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDate;
 
+import static com.prgrms.album_market.album.dto.AlbumRequest.UpdateAlbumReq;
+import static com.prgrms.album_market.common.exception.ErrorCode.INVALID_FORMAT_PRICE;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-@Entity @Getter
+@Entity
+@Getter
 @NoArgsConstructor(access = PROTECTED)
+@DynamicInsert
 public class Album extends BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -28,11 +35,35 @@ public class Album extends BaseEntity {
     private Integer stock;
     private Integer likeCount;
 
-    public Album(String title, String artist, Category category, String imgUrl, LocalDate releaseDate) {
+    @Builder
+    public Album(String title, String artist, Category category, String imgUrl, LocalDate releaseDate, int price) {
         this.title = title;
         this.artist = artist;
         this.category = category;
         this.imgUrl = imgUrl;
         this.releaseDate = releaseDate;
+        this.price = price;
+    }
+
+    public Album updateAlbumInfo(UpdateAlbumReq request) {
+        if (request.getTitle() != null) {
+            this.title = request.getTitle();
+        }
+        if (request.getArtist() != null) {
+            this.artist = request.getArtist();
+        }
+        if (request.getCategory() != null) {
+            this.category = Category.matchCategory(request.getCategory());
+        }
+        if (request.getReleaseDate() != null) {
+            this.releaseDate = LocalDate.parse(request.getReleaseDate());
+        }
+        if (request.getPrice() != null) {
+            if (request.getPrice() < 0) {
+                throw new CustomException(INVALID_FORMAT_PRICE);
+            }
+            this.price = request.getPrice();
+        }
+        return this;
     }
 }

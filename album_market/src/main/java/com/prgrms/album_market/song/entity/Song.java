@@ -20,6 +20,7 @@ public class Song extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "album_id")
     private Album album;
 
     private String title;

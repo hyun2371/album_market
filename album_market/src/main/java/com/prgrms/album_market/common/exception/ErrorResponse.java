@@ -15,7 +15,4 @@ public class ErrorResponse {
         this.code = errorCode.name();
         this.message = errorCode.getMessage();
     }
-
-
-
 }

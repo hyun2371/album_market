@@ -1,4 +1,4 @@
-package com.prgrms.album_market.album.dto;
+package com.prgrms.album_market.album.dto.album;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

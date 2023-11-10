@@ -1,4 +1,4 @@
-package com.prgrms.album_market.album.dto;
+package com.prgrms.album_market.album.dto.album;
 
 import com.prgrms.album_market.album.entity.Album;
 import com.prgrms.album_market.album.entity.Category;
@@ -8,9 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.prgrms.album_market.album.dto.AlbumResponse.*;
-import static com.prgrms.album_market.album.dto.AlbumResponse.CreateAlbumRes;
-import static com.prgrms.album_market.album.dto.AlbumResponse.GetAlbumRes;
+import static com.prgrms.album_market.album.dto.album.AlbumResponse.*;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)

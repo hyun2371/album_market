@@ -10,7 +10,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDate;
 
-import static com.prgrms.album_market.album.dto.AlbumRequest.UpdateAlbumReq;
+import static com.prgrms.album_market.album.dto.album.AlbumRequest.UpdateAlbumReq;
 import static com.prgrms.album_market.common.exception.ErrorCode.INVALID_FORMAT_PRICE;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;

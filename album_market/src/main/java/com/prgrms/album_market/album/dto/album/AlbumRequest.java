@@ -1,4 +1,4 @@
-package com.prgrms.album_market.album.dto;
+package com.prgrms.album_market.album.dto.album;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

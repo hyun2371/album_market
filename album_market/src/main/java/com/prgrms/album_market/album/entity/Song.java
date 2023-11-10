@@ -1,12 +1,12 @@
-package com.prgrms.album_market.song.entity;
+package com.prgrms.album_market.album.entity;
 
-import com.prgrms.album_market.album.entity.Album;
 import com.prgrms.album_market.common.BaseEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static jakarta.persistence.FetchType.*;
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -26,4 +26,11 @@ public class Song extends BaseEntity {
     private String title;
 
     private Boolean isTitle;
+
+    @Builder
+    public Song(Album album, String title, Boolean isTitle) {
+        this.album = album;
+        this.title = title;
+        this.isTitle = isTitle;
+    }
 }

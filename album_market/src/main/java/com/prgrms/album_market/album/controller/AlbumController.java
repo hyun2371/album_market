@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.prgrms.album_market.album.dto.AlbumRequest.CreateAlbumReq;
-import static com.prgrms.album_market.album.dto.AlbumRequest.UpdateAlbumReq;
-import static com.prgrms.album_market.album.dto.AlbumResponse.*;
+import static com.prgrms.album_market.album.dto.album.AlbumRequest.CreateAlbumReq;
+import static com.prgrms.album_market.album.dto.album.AlbumRequest.UpdateAlbumReq;
+import static com.prgrms.album_market.album.dto.album.AlbumResponse.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,8 +17,8 @@ public class AlbumController {
     private final AlbumService albumService;
 
     @PostMapping
-    public ResponseEntity<CreateAlbumRes> createAlbum(@Valid @RequestBody CreateAlbumReq albumReq){
-        return albumService.createAlbum(albumReq);
+    public ResponseEntity<CreateAlbumRes> createAlbum(@Valid @RequestBody CreateAlbumReq request){
+        return albumService.createAlbum(request);
     }
 
     @GetMapping("/{albumId}")

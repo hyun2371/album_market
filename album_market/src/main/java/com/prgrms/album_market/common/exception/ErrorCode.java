@@ -61,6 +61,9 @@ public enum ErrorCode {
     NOT_EXISTS_ALBUM_ID(HttpStatus.BAD_REQUEST, "해당 아이디의 앨범이 존재하지 않습니다."),
     ALREADY_EXIST_ALBUM(HttpStatus.BAD_REQUEST, "동일한 이름과 아티스트의 앨범이 이미 존재합니다."),
 
+    //song
+    NOT_EXISTS_SONG_ALBUM_ID(HttpStatus.BAD_REQUEST, "해당 앨범 아이디의 노래가 존재하지 않습니다."),
+
     TMP(HttpStatus.BAD_REQUEST, "temp");
 
 

@@ -42,6 +42,10 @@ public class MemberMapper {
         return new LoginRes(member.getId());
     }
 
+    public static BalanceRes toBalanceRes(int balance){
+        return new BalanceRes(balance);
+    }
+
 
 
 

@@ -37,12 +37,18 @@ public class MemberController {
     }
 
     @PatchMapping("/{memberId}")
-    public ResponseEntity<GetMemberRes> update(@PathVariable Long memberId, @RequestBody UpdateReq request){
+    public ResponseEntity<GetMemberRes> updateMember(@PathVariable Long memberId, @RequestBody UpdateReq request){
         return memberService.update(memberId, request);
     }
 
     @DeleteMapping("/{memberId}")
-    public ResponseEntity<Boolean> delete(@PathVariable Long memberId){
+    public ResponseEntity<Boolean> deleteMember(@PathVariable Long memberId){
         return memberService.delete(memberId);
     }
+
+    @PostMapping("/charge/{memberId}")
+    public ResponseEntity<BalanceRes> chargeMoney(@PathVariable Long memberId, @RequestParam int amount){
+        return memberService.chargeMoney(memberId, amount);
+    }
+
 }

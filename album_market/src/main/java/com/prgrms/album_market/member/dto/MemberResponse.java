@@ -41,4 +41,9 @@ public class MemberResponse {
     public static class GetMemberListRes {
         private List<GetMemberRes> members;
     }
+
+    @AllArgsConstructor @Getter
+    public static class BalanceRes {
+        private int balance;
+    }
 }

@@ -40,6 +40,10 @@ public enum ErrorCode {
     ALREADY_EXIST_EMAIL(HttpStatus.BAD_REQUEST, "동일한 이메일의 회원이 이미 존재합니다."),
 
 
+    NOT_ENOUGH_MONEY(HttpStatus.BAD_REQUEST, "잔액이 부족합니다."),
+    INVALID_FORMAT_MONEY(HttpStatus.BAD_REQUEST, "1000원부터 충전이 가능합니다."),
+
+
     // Album
     EMPTY_INPUT_TITLE(HttpStatus.BAD_REQUEST, "제목을 입력해주세요."),
 
@@ -64,6 +68,7 @@ public enum ErrorCode {
     //song
     NOT_EXISTS_SONG_ALBUM_ID(HttpStatus.BAD_REQUEST, "해당 앨범 아이디의 노래가 존재하지 않습니다."),
 
+    //albumLike
 
     ALREADY_LIKED_ALBUM(HttpStatus.BAD_REQUEST, "이미 좋아요를 누른 앨범입니다."),
     ALREADY_DISLIKED_ALBUM(HttpStatus.BAD_REQUEST, "이미 좋아요를 취소한 앨범입니다."),

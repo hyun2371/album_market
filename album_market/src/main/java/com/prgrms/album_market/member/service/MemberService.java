@@ -60,7 +60,7 @@ public class MemberService {
         return ResponseEntity.ok(true);
     }
 
-    private Member getMemberEntity(Long memberId) {
+    public Member getMemberEntity(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new CustomException(NOT_EXIST_MEMBER_ID));
     }

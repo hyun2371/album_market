@@ -41,4 +41,13 @@ public class AlbumController {
         return albumService.deleteAlbum(albumId);
     }
 
+    @PostMapping("/like")
+    public ResponseEntity<Boolean> likeAlbum(@RequestParam Long albumId, @RequestParam Long memberId){
+        return albumService.likeAlbum(albumId, memberId);
+    }
+    @DeleteMapping("/like")
+    public ResponseEntity<Boolean> dislikeAlbum(@RequestParam Long albumId, @RequestParam Long memberId){
+        return albumService.dislikeAlbum(albumId, memberId);
+    }
+
 }

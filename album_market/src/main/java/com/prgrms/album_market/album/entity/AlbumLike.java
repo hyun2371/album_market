@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
-import static lombok.AccessLevel.PROTECTED;
 
 @Entity
-@Getter
-@NoArgsConstructor(access = PROTECTED)
+@Getter @NoArgsConstructor
 public class AlbumLike {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -26,5 +24,8 @@ public class AlbumLike {
     @JoinColumn(name = "album_id")
     private Album album;
 
-    private Boolean isLike;
+    public AlbumLike(Album album, Member member) {
+        this.album = album;
+        this.member = member;
+    }
 }

@@ -64,6 +64,10 @@ public enum ErrorCode {
     //song
     NOT_EXISTS_SONG_ALBUM_ID(HttpStatus.BAD_REQUEST, "해당 앨범 아이디의 노래가 존재하지 않습니다."),
 
+
+    ALREADY_LIKED_ALBUM(HttpStatus.BAD_REQUEST, "이미 좋아요를 누른 앨범입니다."),
+    ALREADY_DISLIKED_ALBUM(HttpStatus.BAD_REQUEST, "이미 좋아요를 취소한 앨범입니다."),
+
     TMP(HttpStatus.BAD_REQUEST, "temp");
 
 

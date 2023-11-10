@@ -66,4 +66,8 @@ public class Album extends BaseEntity {
         }
         return this;
     }
+
+    public void updateLikeCount(int count){
+        likeCount+=count;
+    }
 }

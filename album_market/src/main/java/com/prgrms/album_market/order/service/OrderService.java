@@ -9,7 +9,6 @@ import com.prgrms.album_market.member.service.MemberService;
 import com.prgrms.album_market.order.entity.Order;
 import com.prgrms.album_market.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +26,7 @@ public class OrderService {
     private final MemberService memberService;
     private final AlbumService albumService;
 
-    public ResponseEntity<CreateOrderRes> createOrder(Long memberId, CreateOrderReq request) {
+    public CreateOrderRes createOrder(Long memberId, CreateOrderReq request) {
         Member member = memberService.getMemberEntity(memberId);
         Album album = albumService.getAlbumEntity(request.getAlbumId());
         int totalPrice = album.getPrice() * request.getQuantity();
@@ -39,38 +38,38 @@ public class OrderService {
         Order order = toOrder(member, album, quantity, totalPrice);
         orderRepository.save(order);
 
-        return ResponseEntity.ok(toCreateOrderRes(order));
+        return toCreateOrderRes(order);
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<GetOrderListRes> getOrders() {
+    public GetOrderListRes getOrders() {
         List<Order> orders = orderRepository.findAll();
-        return ResponseEntity.ok(toGetOrderListRes(orders));
+        return toGetOrderListRes(orders);
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<GetOrderListRes> getMemberOrders(Long memberId) {
+    public GetOrderListRes getMemberOrders(Long memberId) {
         Member member = memberService.getMemberEntity(memberId);
         List<Order> memberOrders = orderRepository.findByMember(member);
-        return ResponseEntity.ok(toGetOrderListRes(memberOrders));
+        return toGetOrderListRes(memberOrders);
     }
 
-    public ResponseEntity<GetOrderRes> cancelOrder(Long orderId) {
+    public GetOrderRes cancelOrder(Long orderId) {
         Order order = getOrderEntity(orderId);
         order.cancelOrder();
 
         Member member = memberService.getMemberEntity(order.getMember().getId());
         member.chargeMoney(order.getTotalPrice());
 
-        return ResponseEntity.ok(toGetOrderRes(order));
+        return toGetOrderRes(order);
     }
 
-    public ResponseEntity<GetOrderRes> deliverOrder(Long orderId) {
+    public GetOrderRes deliverOrder(Long orderId) {
         Order order = getOrderEntity(orderId);
         order.deliverOrder();
         order.getMember().chargeMoney((int)(order.getTotalPrice() * 0.1)); //적립금
 
-        return ResponseEntity.ok(toGetOrderRes(order));
+        return toGetOrderRes(order);
     }
 
     public Order getOrderEntity(Long orderId){

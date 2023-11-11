@@ -18,41 +18,49 @@ public class AlbumController {
 
     @PostMapping
     public ResponseEntity<CreateAlbumRes> createAlbum(@Valid @RequestBody CreateAlbumReq request){
-        return albumService.createAlbum(request);
+        CreateAlbumRes response = albumService.createAlbum(request);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{albumId}")
     public ResponseEntity<GetAlbumRes> getAlbum(@PathVariable Long albumId) {
-        return albumService.getAlbum(albumId);
+        GetAlbumRes response = albumService.getAlbum(albumId);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
     public ResponseEntity<GetAlbumListRes> getAlbums(){
-        return albumService.getAlbums();
+        GetAlbumListRes response = albumService.getAlbums();
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{albumId}")
     public ResponseEntity<GetAlbumRes> updateAlbum(@PathVariable Long albumId, @RequestBody UpdateAlbumReq request){
-        return albumService.updateAlbum(albumId, request);
+        GetAlbumRes response = albumService.updateAlbum(albumId, request);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{albumId}")
     public ResponseEntity<Boolean> deleteAlbum(@PathVariable Long albumId){
-        return albumService.deleteAlbum(albumId);
+        albumService.deleteAlbum(albumId);
+        return ResponseEntity.ok(true);
     }
 
     @PostMapping("/like")
     public ResponseEntity<Boolean> likeAlbum(@RequestParam Long albumId, @RequestParam Long memberId){
-        return albumService.likeAlbum(albumId, memberId);
+        albumService.likeAlbum(albumId, memberId);
+        return ResponseEntity.ok(true);
     }
     @DeleteMapping("/like")
     public ResponseEntity<Boolean> dislikeAlbum(@RequestParam Long albumId, @RequestParam Long memberId){
-        return albumService.dislikeAlbum(albumId, memberId);
+        albumService.dislikeAlbum(albumId, memberId);
+        return ResponseEntity.ok(true);
     }
 
     @PostMapping("/{albumId}/stock")
     public ResponseEntity<GetAlbumRes> increaseAlbumStock(@PathVariable Long albumId, @RequestParam Integer quantity){
-        return albumService.increaseAlbumStock(albumId, quantity);
+        GetAlbumRes response = albumService.increaseAlbumStock(albumId, quantity);
+        return ResponseEntity.ok(response);
     }
 
 }

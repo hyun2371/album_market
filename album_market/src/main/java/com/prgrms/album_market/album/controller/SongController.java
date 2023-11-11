@@ -20,6 +20,7 @@ public class SongController {
 
     @PostMapping
     public ResponseEntity<CreateSongRes> createSong(@Valid @RequestBody CreateSongReq request){
-        return songService.createSong(request);
+        CreateSongRes response = songService.createSong(request);
+        ResponseEntity.ok(response);
     }
 }

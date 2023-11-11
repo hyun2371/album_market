@@ -18,37 +18,44 @@ public class MemberController {
 
     @PostMapping
     public ResponseEntity<SignUpRes> signUp(@Valid @RequestBody SignUpReq request) {
-        return memberService.signUp(request);
+        SignUpRes response = memberService.signUp(request);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginRes> login(@Valid @RequestBody LoginReq request) {
-        return memberService.login(request);
+        LoginRes response = memberService.login(request);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{memberId}")
     public ResponseEntity<GetMemberRes> getMemberById(@PathVariable Long memberId) {
-        return memberService.getMemberById(memberId);
+        GetMemberRes response = memberService.getMemberById(memberId);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
     public ResponseEntity<GetMemberListRes> getMembers() {
-        return memberService.getMembers();
+        GetMemberListRes response = memberService.getMembers();
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{memberId}")
     public ResponseEntity<GetMemberRes> updateMember(@PathVariable Long memberId, @RequestBody UpdateReq request){
-        return memberService.update(memberId, request);
+        GetMemberRes response = memberService.updateMember(memberId, request);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{memberId}")
     public ResponseEntity<Boolean> deleteMember(@PathVariable Long memberId){
-        return memberService.delete(memberId);
+        memberService.deleteMember(memberId);
+        return ResponseEntity.ok(true);
     }
 
     @PostMapping("/charge/{memberId}")
     public ResponseEntity<BalanceRes> chargeMoney(@PathVariable Long memberId, @RequestParam int amount){
-        return memberService.chargeMoney(memberId, amount);
+        BalanceRes response = memberService.chargeMoney(memberId, amount);
+        return ResponseEntity.ok(response);
     }
 
 }

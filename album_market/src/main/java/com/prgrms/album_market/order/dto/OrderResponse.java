@@ -18,6 +18,7 @@ public class OrderResponse {
 
     @AllArgsConstructor @Getter @Builder
     public static class GetOrderRes {
+        private Long orderId;
         private Long albumId;
         private String albumTitle;
         private Long memberId;

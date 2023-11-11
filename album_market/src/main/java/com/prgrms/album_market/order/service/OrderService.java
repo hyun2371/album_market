@@ -34,7 +34,7 @@ public class OrderService {
         int quantity = request.getQuantity();
 
         album.reduceStock(quantity);
-        member.chargeMoney(totalPrice);
+        member.payMoney(totalPrice);
 
         Order order = toOrder(member, album, quantity, totalPrice);
         orderRepository.save(order);
@@ -68,6 +68,7 @@ public class OrderService {
     public ResponseEntity<GetOrderRes> deliverOrder(Long orderId) {
         Order order = getOrderEntity(orderId);
         order.deliverOrder();
+        order.getMember().chargeMoney((int)(order.getTotalPrice() * 0.1)); //적립금
 
         return ResponseEntity.ok(toGetOrderRes(order));
     }

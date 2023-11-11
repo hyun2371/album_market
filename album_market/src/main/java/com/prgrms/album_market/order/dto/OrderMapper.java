@@ -29,6 +29,7 @@ public class OrderMapper {
 
     public static GetOrderRes toGetOrderRes(Order order){
         return GetOrderRes.builder()
+                .orderId(order.getId())
                 .albumId(order.getAlbum().getId())
                 .albumTitle(order.getAlbum().getTitle())
                 .memberId(order.getMember().getId())

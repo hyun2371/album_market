@@ -5,10 +5,9 @@ import com.prgrms.album_market.album.entity.Category;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
-import static com.prgrms.album_market.album.dto.album.AlbumResponse.*;
+import static com.prgrms.album_market.album.dto.album.AlbumResponse.CreateAlbumRes;
+import static com.prgrms.album_market.album.dto.album.AlbumResponse.GetAlbumRes;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
@@ -30,14 +29,6 @@ public class AlbumMapper {
                 .stock(album.getStock())
                 .likeCount(album.getLikeCount())
                 .build();
-    }
-
-    public static GetAlbumListRes toGetAlbumListRes(List<Album>albums){
-        List<GetAlbumRes> list = new ArrayList<>();
-        for (Album album : albums){
-            list.add(toGetAlbumRes(album));
-        }
-        return new GetAlbumListRes(list);
     }
 
     // dto->entity

@@ -1,8 +1,10 @@
 package com.prgrms.album_market.album.controller;
 
 import com.prgrms.album_market.album.service.AlbumService;
+import com.prgrms.album_market.common.PageResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +31,8 @@ public class AlbumController {
     }
 
     @GetMapping
-    public ResponseEntity<GetAlbumListRes> getAlbums(){
-        GetAlbumListRes response = albumService.getAlbums();
+    public ResponseEntity<PageResponse<GetAlbumRes>> getAlbums(Pageable pageable){
+        PageResponse<GetAlbumRes> response = albumService.getAlbums(pageable);
         return ResponseEntity.ok(response);
     }
 

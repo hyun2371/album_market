@@ -2,21 +2,24 @@ package com.prgrms.album_market.order.service;
 
 import com.prgrms.album_market.album.entity.Album;
 import com.prgrms.album_market.album.service.AlbumService;
+import com.prgrms.album_market.common.PageResponse;
 import com.prgrms.album_market.common.exception.CustomException;
 import com.prgrms.album_market.common.exception.ErrorCode;
 import com.prgrms.album_market.member.entity.Member;
 import com.prgrms.album_market.member.service.MemberService;
+import com.prgrms.album_market.order.dto.OrderMapper;
 import com.prgrms.album_market.order.entity.Order;
 import com.prgrms.album_market.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import static com.prgrms.album_market.order.dto.OrderMapper.*;
 import static com.prgrms.album_market.order.dto.OrderRequest.CreateOrderReq;
-import static com.prgrms.album_market.order.dto.OrderResponse.*;
+import static com.prgrms.album_market.order.dto.OrderResponse.CreateOrderRes;
+import static com.prgrms.album_market.order.dto.OrderResponse.GetOrderRes;
 
 @Service
 @RequiredArgsConstructor
@@ -42,16 +45,19 @@ public class OrderService {
     }
 
     @Transactional(readOnly = true)
-    public GetOrderListRes getOrders() {
-        List<Order> orders = orderRepository.findAll();
-        return toGetOrderListRes(orders);
+    public PageResponse<GetOrderRes> getOrders(Pageable pageable) {
+        Page<Order> pagedOrders = orderRepository.findAll(pageable);
+        Page<GetOrderRes> pagedGetOrderRes = pagedOrders.map(OrderMapper::toGetOrderRes);
+        return PageResponse.fromPage(pagedGetOrderRes);
     }
 
     @Transactional(readOnly = true)
-    public GetOrderListRes getMemberOrders(Long memberId) {
+    public PageResponse<GetOrderRes> getMemberOrders(Long memberId, Pageable pageable) {
         Member member = memberService.getMemberEntity(memberId);
-        List<Order> memberOrders = orderRepository.findByMember(member);
-        return toGetOrderListRes(memberOrders);
+        Page<Order> pagedMemberOrders = orderRepository.findByMember(member, pageable);
+        Page<GetOrderRes> pagedGetOrderRes = pagedMemberOrders.map(OrderMapper::toGetOrderRes);
+
+        return PageResponse.fromPage(pagedGetOrderRes);
     }
 
     public GetOrderRes cancelOrder(Long orderId) {

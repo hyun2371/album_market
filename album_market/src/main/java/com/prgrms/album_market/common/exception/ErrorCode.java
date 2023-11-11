@@ -69,7 +69,7 @@ public enum ErrorCode {
     ALREADY_EXIST_ALBUM(HttpStatus.BAD_REQUEST, "동일한 이름과 아티스트의 앨범이 이미 존재합니다."),
 
     //song
-    NOT_EXISTS_SONG_ALBUM_ID(HttpStatus.NOT_FOUND, "해당 앨범 아이디의 노래가 존재하지 않습니다."),
+    ALREADY_EXISTS_SONG(HttpStatus.BAD_REQUEST, "앨범에 해당 노래가 이미 존재합니다."),
 
     //albumLike
 
@@ -79,7 +79,7 @@ public enum ErrorCode {
     //order
     NOT_EXISTS_ORDER_ID(HttpStatus.NOT_FOUND, "해당 아이디의 주문이 존재하지 않습니다."),
 
-    DELIVERED_CAN_NOT_CANCEL(HttpStatus.BAD_REQUEST, "이미 배달이 완료되어 취소가 되지 않는 주분입니다."),
+    DELIVERED_CAN_NOT_CANCEL(HttpStatus.BAD_REQUEST, "이미 배달이 완료되어 취소가 되지 않는 주문입니다."),
 
     CANCELED_CAN_NOT_DELIVER(HttpStatus.BAD_REQUEST, "이미 취소된 앨범은 배달할 수 없습니다."),
 

@@ -1,23 +1,26 @@
 package com.prgrms.album_market.album.service;
 
+import com.prgrms.album_market.album.dto.album.AlbumMapper;
 import com.prgrms.album_market.album.entity.Album;
 import com.prgrms.album_market.album.entity.AlbumLike;
 import com.prgrms.album_market.album.repository.AlbumLikeRepository;
 import com.prgrms.album_market.album.repository.AlbumRepository;
 import com.prgrms.album_market.album.repository.SongRepository;
+import com.prgrms.album_market.common.PageResponse;
 import com.prgrms.album_market.common.exception.CustomException;
 import com.prgrms.album_market.member.entity.Member;
 import com.prgrms.album_market.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static com.prgrms.album_market.album.dto.album.AlbumMapper.*;
 import static com.prgrms.album_market.album.dto.album.AlbumRequest.CreateAlbumReq;
 import static com.prgrms.album_market.album.dto.album.AlbumRequest.UpdateAlbumReq;
-import static com.prgrms.album_market.album.dto.album.AlbumResponse.*;
+import static com.prgrms.album_market.album.dto.album.AlbumResponse.CreateAlbumRes;
+import static com.prgrms.album_market.album.dto.album.AlbumResponse.GetAlbumRes;
 import static com.prgrms.album_market.common.exception.ErrorCode.*;
 
 @Service
@@ -46,9 +49,10 @@ public class AlbumService {
     }
 
     @Transactional(readOnly = true)
-    public GetAlbumListRes getAlbums() {
-        List<Album> albums = albumRepository.findAll();
-        return toGetAlbumListRes(albums);
+    public PageResponse<GetAlbumRes> getAlbums(Pageable pageable) {
+        Page<Album> pagedAlbums = albumRepository.findAll(pageable);
+        Page<GetAlbumRes> pagedGetAlbumRes = pagedAlbums.map(AlbumMapper::toGetAlbumRes);
+        return PageResponse.fromPage(pagedGetAlbumRes);
     }
 
     public GetAlbumRes updateAlbum(Long albumId, UpdateAlbumReq request) {

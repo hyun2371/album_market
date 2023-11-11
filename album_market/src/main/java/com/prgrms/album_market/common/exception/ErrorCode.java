@@ -62,11 +62,13 @@ public enum ErrorCode {
 
     INVALID_FORMAT_PRICE(HttpStatus.BAD_REQUEST, "가격은 0이상이어야 합니다."),
 
-    NOT_EXISTS_ALBUM_ID(HttpStatus.BAD_REQUEST, "해당 아이디의 앨범이 존재하지 않습니다."),
+    INVALID_FORMAT_STOCK(HttpStatus.BAD_REQUEST, "최소 입고 수량은 1개입니다."),
+
+    NOT_EXISTS_ALBUM_ID(HttpStatus.NOT_FOUND, "해당 아이디의 앨범이 존재하지 않습니다."),
     ALREADY_EXIST_ALBUM(HttpStatus.BAD_REQUEST, "동일한 이름과 아티스트의 앨범이 이미 존재합니다."),
 
     //song
-    NOT_EXISTS_SONG_ALBUM_ID(HttpStatus.BAD_REQUEST, "해당 앨범 아이디의 노래가 존재하지 않습니다."),
+    NOT_EXISTS_SONG_ALBUM_ID(HttpStatus.NOT_FOUND, "해당 앨범 아이디의 노래가 존재하지 않습니다."),
 
     //albumLike
 
@@ -74,6 +76,16 @@ public enum ErrorCode {
     ALREADY_DISLIKED_ALBUM(HttpStatus.BAD_REQUEST, "이미 좋아요를 취소한 앨범입니다."),
 
     //order
+    NOT_EXISTS_ORDER_ID(HttpStatus.NOT_FOUND, "해당 아이디의 주문이 존재하지 않습니다."),
+
+    DELIVERED_CAN_NOT_CANCEL(HttpStatus.BAD_REQUEST, "이미 배달이 완료되어 취소가 되지 않는 주분입니다."),
+
+    CANCELED_CAN_NOT_DELIVER(HttpStatus.BAD_REQUEST, "이미 취소된 앨범은 배달할 수 없습니다."),
+
+    ALREADY_CANCELED_ALBUM(HttpStatus.BAD_REQUEST, "이미 취소된 주문입니다."),
+
+    ALREADY_DELIVERED_ALBUM(HttpStatus.BAD_REQUEST, "이미 배달 완료된 앨범입니다."),
+
     INVALID_FORMAT_QUANTITY(HttpStatus.BAD_REQUEST, "최소 주문 수량은 1개입니다."),
 
     OUT_OF_STOCK(HttpStatus.BAD_REQUEST, "재고가 부족합니다."),

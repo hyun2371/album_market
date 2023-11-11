@@ -50,4 +50,9 @@ public class AlbumController {
         return albumService.dislikeAlbum(albumId, memberId);
     }
 
+    @PostMapping("/{albumId}/stock")
+    public ResponseEntity<GetAlbumRes> increaseAlbumStock(@PathVariable Long albumId, @RequestParam Integer quantity){
+        return albumService.increaseAlbumStock(albumId, quantity);
+    }
+
 }

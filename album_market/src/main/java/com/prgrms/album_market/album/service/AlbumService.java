@@ -74,14 +74,6 @@ public class AlbumService {
         return ResponseEntity.ok(true);
     }
 
-    private AlbumLike createAlbumEntity(Long memberId, Album album) {
-        Member member = memberService.getMemberEntity(memberId);
-        if (albumLikeRepository.existsByAlbumAndMember(album, member)) {
-            throw new CustomException(ALREADY_LIKED_ALBUM);
-        }
-        return new AlbumLike(album, member);
-    }
-
     public ResponseEntity<Boolean> dislikeAlbum(Long albumId, Long memberId) {
         Album album = getAlbumEntity(albumId);
         AlbumLike albumLike = getAlbumLikeEntity(memberId, album);
@@ -90,6 +82,14 @@ public class AlbumService {
         album.updateLikeCount(-1);
 
         return ResponseEntity.ok(true);
+    }
+
+    private AlbumLike createAlbumEntity(Long memberId, Album album) {
+        Member member = memberService.getMemberEntity(memberId);
+        if (albumLikeRepository.existsByAlbumAndMember(album, member)) {
+            throw new CustomException(ALREADY_LIKED_ALBUM);
+        }
+        return new AlbumLike(album, member);
     }
 
     private AlbumLike getAlbumLikeEntity(Long memberId, Album album) {
@@ -101,5 +101,11 @@ public class AlbumService {
     public Album getAlbumEntity(Long albumId) {
         return albumRepository.findById(albumId)
                 .orElseThrow(() -> new CustomException(NOT_EXISTS_ALBUM_ID));
+    }
+
+    public ResponseEntity<GetAlbumRes> increaseAlbumStock(Long albumId, Integer quantity) {
+        Album album = getAlbumEntity(albumId);
+        album.increaseStock(quantity);
+        return ResponseEntity.ok(toGetAlbumRes(album));
     }
 }

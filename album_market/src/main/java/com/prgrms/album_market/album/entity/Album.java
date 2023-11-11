@@ -11,8 +11,7 @@ import org.hibernate.annotations.DynamicInsert;
 import java.time.LocalDate;
 
 import static com.prgrms.album_market.album.dto.album.AlbumRequest.UpdateAlbumReq;
-import static com.prgrms.album_market.common.exception.ErrorCode.INVALID_FORMAT_PRICE;
-import static com.prgrms.album_market.common.exception.ErrorCode.OUT_OF_STOCK;
+import static com.prgrms.album_market.common.exception.ErrorCode.*;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
@@ -77,5 +76,12 @@ public class Album extends BaseEntity {
             throw new CustomException(OUT_OF_STOCK);
         }
         stock -= quantity;
+    }
+
+    public void increaseStock(int quantity) {
+        if (quantity < 0) {
+            throw new CustomException(INVALID_FORMAT_STOCK);
+        }
+        stock += quantity;
     }
 }

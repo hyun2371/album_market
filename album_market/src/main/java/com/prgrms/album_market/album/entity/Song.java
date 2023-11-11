@@ -23,14 +23,14 @@ public class Song extends BaseEntity {
     @JoinColumn(name = "album_id")
     private Album album;
 
-    private String title;
+    private String name;
 
     private Boolean isTitle;
 
     @Builder
-    public Song(Album album, String title, Boolean isTitle) {
+    public Song(Album album, String name, Boolean isTitle) {
         this.album = album;
-        this.title = title;
+        this.name = name;
         this.isTitle = isTitle;
     }
 }

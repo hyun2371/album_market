@@ -11,7 +11,7 @@ public class SongRequest {
     @RequiredArgsConstructor
     @Getter
     public static class CreateSongReq {
-        private String title;
+        private String name;
         private Boolean isTitle;
         private Long albumId;
     }

@@ -73,6 +73,11 @@ public enum ErrorCode {
     ALREADY_LIKED_ALBUM(HttpStatus.BAD_REQUEST, "이미 좋아요를 누른 앨범입니다."),
     ALREADY_DISLIKED_ALBUM(HttpStatus.BAD_REQUEST, "이미 좋아요를 취소한 앨범입니다."),
 
+    //order
+    INVALID_FORMAT_QUANTITY(HttpStatus.BAD_REQUEST, "최소 주문 수량은 1개입니다."),
+
+    OUT_OF_STOCK(HttpStatus.BAD_REQUEST, "재고가 부족합니다."),
+
     TMP(HttpStatus.BAD_REQUEST, "temp");
 
 

@@ -5,13 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import static lombok.AccessLevel.PROTECTED;
 
 @NoArgsConstructor(access = PROTECTED)
 public class AlbumRequest {
-    @RequiredArgsConstructor
+
     @Getter
     public static class CreateAlbumReq {
         @NotBlank(message = "제목을 입력해주세요.")
@@ -34,7 +33,6 @@ public class AlbumRequest {
         private Integer price;
     }
 
-    @RequiredArgsConstructor
     @Getter
     public static class UpdateAlbumReq {
         private String title;

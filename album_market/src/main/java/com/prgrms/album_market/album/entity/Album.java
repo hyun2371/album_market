@@ -12,6 +12,7 @@ import java.time.LocalDate;
 
 import static com.prgrms.album_market.album.dto.album.AlbumRequest.UpdateAlbumReq;
 import static com.prgrms.album_market.common.exception.ErrorCode.INVALID_FORMAT_PRICE;
+import static com.prgrms.album_market.common.exception.ErrorCode.OUT_OF_STOCK;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
@@ -67,7 +68,14 @@ public class Album extends BaseEntity {
         return this;
     }
 
-    public void updateLikeCount(int count){
-        likeCount+=count;
+    public void updateLikeCount(int count) {
+        likeCount += count;
+    }
+
+    public void reduceStock(int quantity) {
+        if (stock - quantity < 0) {
+            throw new CustomException(OUT_OF_STOCK);
+        }
+        stock -= quantity;
     }
 }

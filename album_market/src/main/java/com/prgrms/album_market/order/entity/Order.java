@@ -5,20 +5,22 @@ import com.prgrms.album_market.common.BaseEntity;
 import com.prgrms.album_market.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import static com.prgrms.album_market.order.entity.OrderStatus.*;
 import static jakarta.persistence.EnumType.*;
 import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
-@Entity
 @Table(name = "orders")
+@Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order extends BaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "order_id")
     private Long id;
 
@@ -29,16 +31,18 @@ public class Order extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "album_id")
     private Album album;
-
-    private Integer totalPrice;
+    private Integer quantity;
+    private int totalPrice;
 
     @Enumerated(STRING)
-    private OrderStatus status;
+    private OrderStatus orderStatus;
 
-    public Order(Member member, Album album, Integer totalPrice) {
+    @Builder
+    public Order(Member member, Album album, Integer quantity, int totalPrice) {
         this.member = member;
         this.album = album;
+        this.quantity = quantity;
         this.totalPrice = totalPrice;
-        this.status = ORDERED;
+        this.orderStatus = ORDERED;
     }
 }

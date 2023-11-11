@@ -2,6 +2,7 @@ package com.prgrms.album_market.order.entity;
 
 import com.prgrms.album_market.album.entity.Album;
 import com.prgrms.album_market.common.BaseEntity;
+import com.prgrms.album_market.common.exception.CustomException;
 import com.prgrms.album_market.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -9,8 +10,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import static com.prgrms.album_market.common.exception.ErrorCode.*;
 import static com.prgrms.album_market.order.entity.OrderStatus.*;
-import static jakarta.persistence.EnumType.*;
+import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -44,5 +46,25 @@ public class Order extends BaseEntity {
         this.quantity = quantity;
         this.totalPrice = totalPrice;
         this.orderStatus = ORDERED;
+    }
+
+    public void cancelOrder(){
+        if (orderStatus ==CANCELED){
+            throw new CustomException(ALREADY_CANCELED_ALBUM);
+        }
+        if (orderStatus==DELIVERED){
+            throw new CustomException(DELIVERED_CAN_NOT_CANCEL);
+        }
+        orderStatus = CANCELED;
+    }
+
+    public void deliverOrder() {
+        if (orderStatus==DELIVERED){
+            throw new CustomException(CANCELED_CAN_NOT_DELIVER);
+        }
+        if (orderStatus == CANCELED) {
+            throw new CustomException(ALREADY_CANCELED_ALBUM);
+        }
+        orderStatus = DELIVERED;
     }
 }

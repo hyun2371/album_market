@@ -30,4 +30,14 @@ public class OrderController {
     public ResponseEntity<GetOrderListRes> getMemberOrders(@PathVariable Long memberId){
         return orderService.getMemberOrders(memberId);
     }
+
+    @PostMapping("cancel/{orderId}")
+    public ResponseEntity<GetOrderRes> cancelOrder(@PathVariable Long orderId){
+        return orderService.cancelOrder(orderId);
+    }
+
+    @PostMapping("deliver/{orderId}")
+    public ResponseEntity<GetOrderRes> deliverOrder(@PathVariable Long orderId){
+        return orderService.deliverOrder(orderId);
+    }
 }

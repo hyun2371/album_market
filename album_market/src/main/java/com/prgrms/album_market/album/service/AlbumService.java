@@ -4,6 +4,7 @@ import com.prgrms.album_market.album.entity.Album;
 import com.prgrms.album_market.album.entity.AlbumLike;
 import com.prgrms.album_market.album.repository.AlbumLikeRepository;
 import com.prgrms.album_market.album.repository.AlbumRepository;
+import com.prgrms.album_market.album.repository.SongRepository;
 import com.prgrms.album_market.common.exception.CustomException;
 import com.prgrms.album_market.member.entity.Member;
 import com.prgrms.album_market.member.service.MemberService;
@@ -25,6 +26,7 @@ import static com.prgrms.album_market.common.exception.ErrorCode.*;
 public class AlbumService {
     private final AlbumRepository albumRepository;
     private final AlbumLikeRepository albumLikeRepository;
+    private final SongRepository songRepository;
     private final MemberService memberService;
 
 
@@ -57,6 +59,7 @@ public class AlbumService {
 
     public void deleteAlbum(Long albumId) {
         Album album = getAlbumEntity(albumId);
+        songRepository.deleteByAlbum(album);
         albumRepository.delete(album);
     }
 

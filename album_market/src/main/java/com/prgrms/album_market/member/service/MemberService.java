@@ -3,6 +3,7 @@ package com.prgrms.album_market.member.service;
 import com.prgrms.album_market.common.exception.CustomException;
 import com.prgrms.album_market.member.entity.Member;
 import com.prgrms.album_market.member.repository.MemberRepository;
+import com.prgrms.album_market.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import static com.prgrms.album_market.member.dto.MemberResponse.*;
 @Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final OrderRepository orderRepository;
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     public SignUpRes signUp(SignUpReq request) {
         memberRepository.findByEmail(request.getEmail())
@@ -62,6 +64,7 @@ public class MemberService {
 
     public void deleteMember(Long memberId) {
         Member member = getMemberEntity(memberId);
+        orderRepository.deleteByMember(member);
         memberRepository.delete(member);
     }
 

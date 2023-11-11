@@ -39,6 +39,7 @@ public enum ErrorCode {
     NOT_EXIST_MEMBER_ID(HttpStatus.NOT_FOUND, "해당 아이디의 회원이 존재하지 않습니다."),
     ALREADY_EXIST_EMAIL(HttpStatus.BAD_REQUEST, "동일한 이메일의 회원이 이미 존재합니다."),
 
+    WRONG_MEMBER_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 올바르지 않습니다"),
 
     NOT_ENOUGH_MONEY(HttpStatus.BAD_REQUEST, "잔액이 부족합니다."),
     INVALID_FORMAT_MONEY(HttpStatus.BAD_REQUEST, "1000원부터 충전이 가능합니다."),

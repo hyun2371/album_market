@@ -50,10 +50,10 @@ public class MemberMapper {
 
 
     // dto -> entity
-    public static Member toMember(SignUpReq request){
+    public static Member toMember(SignUpReq request, String encodedPassword){
         return Member.builder()
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(encodedPassword)
                 .name(request.getName())
                 .phoneNumber(request.getPhoneNumber())
                 .address(new Address(request.getCity(), request.getStreet(), request.getZipcode()))

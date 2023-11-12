@@ -6,23 +6,19 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler
-    protected ResponseEntity<List<ErrorResponse>> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
-        List<ErrorResponse> errorResponses = new ArrayList<>();
-        for (FieldError x : ex.getBindingResult()
-                .getFieldErrors()) {
-            String defaultMessage = x.getDefaultMessage();
-            errorResponses.add(new ErrorResponse(ErrorCode.matchErrorCode(defaultMessage)));
+    protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+        StringBuilder sb = new StringBuilder();
+        for (FieldError e : ex.getBindingResult().getFieldErrors()) {
+            sb.append(e.getDefaultMessage());
+            sb.append(", ");
         }
         return ResponseEntity
                 .badRequest()
-                .body(errorResponses);
+                .body(new ErrorResponse(sb.toString()));
     }
 
     @ExceptionHandler

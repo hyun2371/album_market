@@ -1,6 +1,5 @@
 package com.prgrms.album_market.common.exception;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
@@ -9,8 +8,7 @@ public class ErrorResponse {
     private final int status;
     private final String error;
     private final String code;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String message;
+    private final String message;
 
     public ErrorResponse(ErrorCode errorCode) {
         this.status = errorCode.getStatus().value();

@@ -15,10 +15,11 @@ import static lombok.AccessLevel.PRIVATE;
 public class MemberMapper {
 
     // entity -> dto
-    public static SignUpRes toSignUpRes(Member member){
+    public static SignUpRes toSignUpRes(Member member) {
         return new SignUpRes(member.getId());
     }
-    public static GetMemberRes toGetMemberRes(Member member){
+
+    public static GetMemberRes toGetMemberRes(Member member) {
         return GetMemberRes.builder()
                 .memberId(member.getId())
                 .email(member.getEmail())
@@ -30,27 +31,25 @@ public class MemberMapper {
                 .zipcode(member.getAddress().getZipcode()).build();
     }
 
-    public static GetMemberListRes toGetMemberListRes(List<Member> members){
+    public static GetMemberListRes toGetMemberListRes(List<Member> members) {
         List<GetMemberRes> list = new ArrayList<>();
-        for (Member member: members) {
+        for (Member member : members) {
             list.add(toGetMemberRes(member));
         }
         return new GetMemberListRes(list);
     }
 
-    public static LoginRes toLoginRes(Member member){
+    public static LoginRes toLoginRes(Member member) {
         return new LoginRes(member.getId());
     }
 
-    public static BalanceRes toBalanceRes(int balance){
+    public static BalanceRes toBalanceRes(int balance) {
         return new BalanceRes(balance);
     }
 
 
-
-
     // dto -> entity
-    public static Member toMember(SignUpReq request, String encodedPassword){
+    public static Member toMember(SignUpReq request, String encodedPassword) {
         return Member.builder()
                 .email(request.getEmail())
                 .password(encodedPassword)

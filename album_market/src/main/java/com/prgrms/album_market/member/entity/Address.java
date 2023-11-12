@@ -6,7 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Embeddable @Getter @NoArgsConstructor @AllArgsConstructor @Setter
+@Embeddable
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
 public class Address {
     private String city;
     private String street;

@@ -19,14 +19,14 @@ public class SongController {
 
     @Operation(summary = "노래 생성")
     @PostMapping
-    public ResponseEntity<CreateSongRes> createSong(@Valid @RequestBody CreateSongReq request){
+    public ResponseEntity<CreateSongRes> createSong(@Valid @RequestBody CreateSongReq request) {
         CreateSongRes response = songService.createSong(request);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "앨범 노래 조회")
     @GetMapping("/{albumId}")
-    public ResponseEntity<GetSongListRes> getAlbumSongs(@PathVariable Long albumId){
+    public ResponseEntity<GetSongListRes> getAlbumSongs(@PathVariable Long albumId) {
         GetSongListRes response = songService.getAlbumSongs(albumId);
         return ResponseEntity.ok(response);
     }

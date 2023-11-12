@@ -22,9 +22,10 @@ import static com.prgrms.album_market.common.exception.ErrorCode.ALREADY_EXISTS_
 public class SongService {
     private final SongRepository songRepository;
     private final AlbumService albumService;
+
     public CreateSongRes createSong(SongRequest.CreateSongReq request) {
         Album album = albumService.getAlbumEntity(request.getAlbumId());
-        if (songRepository.existsByAlbumAndName(album, request.getName())){
+        if (songRepository.existsByAlbumAndName(album, request.getName())) {
             throw new CustomException(ALREADY_EXISTS_SONG);
         }
         Song song = toSong(request, album);

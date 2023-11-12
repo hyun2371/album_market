@@ -18,7 +18,8 @@ public class AlbumResponse {
     }
 
     @AllArgsConstructor
-    @Getter @Builder
+    @Getter
+    @Builder
     public static class GetAlbumRes {
         private Long albumId;
         private String title;

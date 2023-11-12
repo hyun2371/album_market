@@ -36,7 +36,7 @@ public class MemberRequest {
         @NotBlank(message = "도로를 입력해주세요.")
         private String street;
 
-        @NotBlank(message="우편번호를 입력해주세요.")
+        @NotBlank(message = "우편번호를 입력해주세요.")
         @Pattern(regexp = "\\d{5}", message = "우편번호 형식이 올바르지 않습니다.")
         private String zipcode;
     }

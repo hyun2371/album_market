@@ -24,7 +24,8 @@ public class MemberResponse {
     }
 
     @AllArgsConstructor
-    @Getter @Builder
+    @Getter
+    @Builder
     public static class GetMemberRes {
         private Long memberId;
         private String email;
@@ -42,7 +43,8 @@ public class MemberResponse {
         private List<GetMemberRes> members;
     }
 
-    @AllArgsConstructor @Getter
+    @AllArgsConstructor
+    @Getter
     public static class BalanceRes {
         private int balance;
     }

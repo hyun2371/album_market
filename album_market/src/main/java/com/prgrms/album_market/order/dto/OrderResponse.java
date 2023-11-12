@@ -11,12 +11,15 @@ import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
 public class OrderResponse {
-    @AllArgsConstructor @Getter
+    @AllArgsConstructor
+    @Getter
     public static class CreateOrderRes {
         private Long createdOrderId;
     }
 
-    @AllArgsConstructor @Getter @Builder
+    @AllArgsConstructor
+    @Getter
+    @Builder
     public static class GetOrderRes {
         private Long orderId;
         private Long albumId;
@@ -28,7 +31,8 @@ public class OrderResponse {
         private String orderStatus;
     }
 
-    @AllArgsConstructor @Getter
+    @AllArgsConstructor
+    @Getter
     public static class GetOrderListRes {
         List<GetOrderRes> orders;
     }

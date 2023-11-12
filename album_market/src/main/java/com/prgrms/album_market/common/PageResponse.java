@@ -15,7 +15,7 @@ public class PageResponse<T> {
     private List<T> items;
 
     //Page<T> 객체 -> PageResponse<T> 객체
-    public static <T> PageResponse<T> fromPage(Page<T> page){
+    public static <T> PageResponse<T> fromPage(Page<T> page) {
         return new PageResponse<>(
                 page.getNumber(),
                 page.getTotalPages(),

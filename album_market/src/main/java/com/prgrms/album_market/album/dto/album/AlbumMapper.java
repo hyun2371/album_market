@@ -13,11 +13,11 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public class AlbumMapper {
     // entity -> dto
-    public static CreateAlbumRes toCreateAlbumRes(Album album){
+    public static CreateAlbumRes toCreateAlbumRes(Album album) {
         return new CreateAlbumRes(album.getId());
     }
 
-    public static GetAlbumRes toGetAlbumRes(Album album){
+    public static GetAlbumRes toGetAlbumRes(Album album) {
         return GetAlbumRes.builder()
                 .albumId(album.getId())
                 .title(album.getTitle())

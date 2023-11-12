@@ -43,19 +43,19 @@ public class Member extends BaseEntity {
         this.address = address;
     }
 
-    public int payMoney(int amount){
-        if (balance-amount<0){
+    public int payMoney(int amount) {
+        if (balance - amount < 0) {
             throw new CustomException(NOT_ENOUGH_MONEY);
         }
-        balance -=amount;
+        balance -= amount;
         return balance;
     }
 
-    public int chargeMoney(int amount){
-        if (amount<1000){
+    public int chargeMoney(int amount) {
+        if (amount < 1000) {
             throw new CustomException(INVALID_FORMAT_MONEY);
         }
-        balance+=amount;
+        balance += amount;
         return balance;
     }
 

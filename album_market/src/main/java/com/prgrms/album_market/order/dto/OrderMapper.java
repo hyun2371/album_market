@@ -23,11 +23,11 @@ public class OrderMapper {
                 .build();
     }
 
-    public static CreateOrderRes toCreateOrderRes(Order order){
+    public static CreateOrderRes toCreateOrderRes(Order order) {
         return new CreateOrderRes(order.getId());
     }
 
-    public static GetOrderRes toGetOrderRes(Order order){
+    public static GetOrderRes toGetOrderRes(Order order) {
         return GetOrderRes.builder()
                 .orderId(order.getId())
                 .albumId(order.getAlbum().getId())
@@ -40,9 +40,9 @@ public class OrderMapper {
                 .build();
     }
 
-    public static GetOrderListRes toGetOrderListRes(List<Order> orders){
+    public static GetOrderListRes toGetOrderListRes(List<Order> orders) {
         List<GetOrderRes> list = new ArrayList<>();
-        for (Order order: orders){
+        for (Order order : orders) {
             list.add(toGetOrderRes(order));
         }
         return new GetOrderListRes(list);

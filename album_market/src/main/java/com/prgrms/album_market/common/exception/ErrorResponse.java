@@ -19,7 +19,7 @@ public class ErrorResponse {
         this.message = errorCode.getMessage();
     }
 
-    public ErrorResponse(String message){
+    public ErrorResponse(String message) {
         this.status = HttpStatus.BAD_REQUEST.value();
         this.error = "REQUEST_FORMAT_ERROR";
         this.code = "BAD_REQUEST";

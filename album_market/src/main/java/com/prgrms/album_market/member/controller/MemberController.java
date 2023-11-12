@@ -47,21 +47,21 @@ public class MemberController {
 
     @Operation(summary = "회원 업데이트")
     @PatchMapping("/{memberId}")
-    public ResponseEntity<GetMemberRes> updateMember(@PathVariable Long memberId, @RequestBody UpdateReq request){
+    public ResponseEntity<GetMemberRes> updateMember(@PathVariable Long memberId, @RequestBody UpdateReq request) {
         GetMemberRes response = memberService.updateMember(memberId, request);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "회원 탈퇴")
     @DeleteMapping("/{memberId}")
-    public ResponseEntity<Boolean> deleteMember(@PathVariable Long memberId){
+    public ResponseEntity<Boolean> deleteMember(@PathVariable Long memberId) {
         memberService.deleteMember(memberId);
         return ResponseEntity.ok(true);
     }
 
     @Operation(summary = "회원 금액 충전")
     @PostMapping("/charge/{memberId}")
-    public ResponseEntity<BalanceRes> chargeMoney(@PathVariable Long memberId, @RequestParam int amount){
+    public ResponseEntity<BalanceRes> chargeMoney(@PathVariable Long memberId, @RequestParam int amount) {
         BalanceRes response = memberService.chargeMoney(memberId, amount);
         return ResponseEntity.ok(response);
     }

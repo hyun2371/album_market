@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface AlbumLikeRepository extends JpaRepository<AlbumLike, Long> {
     Optional<AlbumLike> findByAlbumAndMember(Album album, Member member);
+
     boolean existsByAlbumAndMember(Album album, Member member);
-    int countByAlbum(Album album);
 }

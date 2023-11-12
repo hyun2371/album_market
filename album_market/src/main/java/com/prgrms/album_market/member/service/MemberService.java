@@ -23,20 +23,21 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final OrderRepository orderRepository;
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     public SignUpRes signUp(SignUpReq request) {
         memberRepository.findByEmail(request.getEmail())
                 .ifPresent(m -> {
                     throw new CustomException(ALREADY_EXIST_EMAIL);
                 });
         String encodedPassword = encoder.encode(request.getPassword());
-        Member savedMember = memberRepository.save(toMember(request,encodedPassword));
+        Member savedMember = memberRepository.save(toMember(request, encodedPassword));
         return toSignUpRes(savedMember);
     }
 
     public LoginRes login(LoginReq request) {
         Member member = memberRepository.findByEmail(request.getEmail())
                 .orElseThrow(RuntimeException::new);
-        if (!encoder.matches(request.getPassword(), member.getPassword())){
+        if (!encoder.matches(request.getPassword(), member.getPassword())) {
             throw new CustomException(WRONG_MEMBER_PASSWORD);
         }
         return toLoginRes(member);

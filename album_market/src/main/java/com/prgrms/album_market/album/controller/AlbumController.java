@@ -22,7 +22,7 @@ public class AlbumController {
 
     @Operation(summary = "앨범 생성")
     @PostMapping
-    public ResponseEntity<CreateAlbumRes> createAlbum(@Valid @RequestBody CreateAlbumReq request){
+    public ResponseEntity<CreateAlbumRes> createAlbum(@Valid @RequestBody CreateAlbumReq request) {
         CreateAlbumRes response = albumService.createAlbum(request);
         return ResponseEntity.ok(response);
     }
@@ -36,49 +36,49 @@ public class AlbumController {
 
     @Operation(summary = "앨범 제목으로 검색")
     @GetMapping("/search")
-    public ResponseEntity<PageResponse<GetAlbumRes>> searchAlbum(@RequestParam String keyword, Pageable pageable){
+    public ResponseEntity<PageResponse<GetAlbumRes>> searchAlbum(@RequestParam String keyword, Pageable pageable) {
         PageResponse<GetAlbumRes> response = albumService.findAlbum(keyword, pageable);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "앨범 모두 조회")
     @GetMapping
-    public ResponseEntity<PageResponse<GetAlbumRes>> getAlbums(Pageable pageable){
+    public ResponseEntity<PageResponse<GetAlbumRes>> getAlbums(Pageable pageable) {
         PageResponse<GetAlbumRes> response = albumService.getAlbums(pageable);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "앨범 수정")
     @PatchMapping("/{albumId}")
-    public ResponseEntity<GetAlbumRes> updateAlbum(@PathVariable Long albumId, @RequestBody UpdateAlbumReq request){
+    public ResponseEntity<GetAlbumRes> updateAlbum(@PathVariable Long albumId, @RequestBody UpdateAlbumReq request) {
         GetAlbumRes response = albumService.updateAlbum(albumId, request);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "앨범 삭제")
     @DeleteMapping("/{albumId}")
-    public ResponseEntity<Boolean> deleteAlbum(@PathVariable Long albumId){
+    public ResponseEntity<Boolean> deleteAlbum(@PathVariable Long albumId) {
         albumService.deleteAlbum(albumId);
         return ResponseEntity.ok(true);
     }
 
     @Operation(summary = "앨범 좋아요")
     @PostMapping("/like")
-    public ResponseEntity<Boolean> likeAlbum(@RequestParam Long albumId, @RequestParam Long memberId){
+    public ResponseEntity<Boolean> likeAlbum(@RequestParam Long albumId, @RequestParam Long memberId) {
         albumService.likeAlbum(albumId, memberId);
         return ResponseEntity.ok(true);
     }
 
     @Operation(summary = "앨범 좋아요 취소")
     @DeleteMapping("/like")
-    public ResponseEntity<Boolean> dislikeAlbum(@RequestParam Long albumId, @RequestParam Long memberId){
+    public ResponseEntity<Boolean> dislikeAlbum(@RequestParam Long albumId, @RequestParam Long memberId) {
         albumService.dislikeAlbum(albumId, memberId);
         return ResponseEntity.ok(true);
     }
 
     @Operation(summary = "앨범 입고")
     @PostMapping("/{albumId}/stock")
-    public ResponseEntity<GetAlbumRes> increaseAlbumStock(@PathVariable Long albumId, @RequestParam Integer quantity){
+    public ResponseEntity<GetAlbumRes> increaseAlbumStock(@PathVariable Long albumId, @RequestParam Integer quantity) {
         GetAlbumRes response = albumService.increaseAlbumStock(albumId, quantity);
         return ResponseEntity.ok(response);
     }

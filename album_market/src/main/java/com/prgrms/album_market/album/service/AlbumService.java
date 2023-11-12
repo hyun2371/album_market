@@ -57,7 +57,7 @@ public class AlbumService {
 
     @Transactional(readOnly = true)
     public PageResponse<GetAlbumRes> findAlbum(String keyword, Pageable pageable) {
-        Page<Album> pagedAlbums = albumRepository.findByTitleContaining(keyword,pageable);
+        Page<Album> pagedAlbums = albumRepository.findByTitleContaining(keyword, pageable);
         Page<GetAlbumRes> pagedGetAlbumRes = pagedAlbums.map(AlbumMapper::toGetAlbumRes);
         return PageResponse.fromPage(pagedGetAlbumRes);
     }

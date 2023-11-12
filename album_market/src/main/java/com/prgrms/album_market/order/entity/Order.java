@@ -48,18 +48,18 @@ public class Order extends BaseEntity {
         this.orderStatus = ORDERED;
     }
 
-    public void cancelOrder(){
-        if (orderStatus ==CANCELED){
+    public void cancelOrder() {
+        if (orderStatus == CANCELED) {
             throw new CustomException(ALREADY_CANCELED_ALBUM);
         }
-        if (orderStatus==DELIVERED){
+        if (orderStatus == DELIVERED) {
             throw new CustomException(DELIVERED_CAN_NOT_CANCEL);
         }
         orderStatus = CANCELED;
     }
 
     public void deliverOrder() {
-        if (orderStatus==DELIVERED){
+        if (orderStatus == DELIVERED) {
             throw new CustomException(CANCELED_CAN_NOT_DELIVER);
         }
         if (orderStatus == CANCELED) {

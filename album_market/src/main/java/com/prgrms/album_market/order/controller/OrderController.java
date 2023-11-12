@@ -10,7 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static com.prgrms.album_market.order.dto.OrderRequest.CreateOrderReq;
-import static com.prgrms.album_market.order.dto.OrderResponse.*;
+import static com.prgrms.album_market.order.dto.OrderResponse.CreateOrderRes;
+import static com.prgrms.album_market.order.dto.OrderResponse.GetOrderRes;
 
 @RestController
 @RequiredArgsConstructor

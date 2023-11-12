@@ -73,13 +73,13 @@ public class OrderService {
     public GetOrderRes deliverOrder(Long orderId) {
         Order order = getOrderEntity(orderId);
         order.deliverOrder();
-        order.getMember().chargeMoney((int)(order.getTotalPrice() * 0.1)); //적립금
+        order.getMember().chargeMoney((int) (order.getTotalPrice() * 0.1)); //적립금
 
         return toGetOrderRes(order);
     }
 
-    public Order getOrderEntity(Long orderId){
+    public Order getOrderEntity(Long orderId) {
         return orderRepository.findById(orderId)
-                .orElseThrow(()-> new CustomException(ErrorCode.NOT_EXISTS_ORDER_ID));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXISTS_ORDER_ID));
     }
 }

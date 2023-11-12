@@ -10,4 +10,6 @@ public interface AlbumRepository extends JpaRepository<Album, Long> {
     boolean existsByTitleAndArtist(String title, String artist);
 
     Page<Album> findAll(Pageable pageable);
+
+    Page<Album> findByTitleContaining(String keyword, Pageable pageable);
 }

@@ -55,6 +55,13 @@ public class AlbumService {
         return PageResponse.fromPage(pagedGetAlbumRes);
     }
 
+    @Transactional(readOnly = true)
+    public PageResponse<GetAlbumRes> findAlbum(String keyword, Pageable pageable) {
+        Page<Album> pagedAlbums = albumRepository.findByTitleContaining(keyword,pageable);
+        Page<GetAlbumRes> pagedGetAlbumRes = pagedAlbums.map(AlbumMapper::toGetAlbumRes);
+        return PageResponse.fromPage(pagedGetAlbumRes);
+    }
+
     public GetAlbumRes updateAlbum(Long albumId, UpdateAlbumReq request) {
         Album album = getAlbumEntity(albumId);
         Album updatedAlbum = album.updateAlbumInfo(request);

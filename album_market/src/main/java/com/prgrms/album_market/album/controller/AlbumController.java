@@ -34,6 +34,13 @@ public class AlbumController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "앨범 제목으로 검색")
+    @GetMapping("/search")
+    public ResponseEntity<PageResponse<GetAlbumRes>> searchAlbum(@RequestParam String keyword, Pageable pageable){
+        PageResponse<GetAlbumRes> response = albumService.findAlbum(keyword, pageable);
+        return ResponseEntity.ok(response);
+    }
+
     @Operation(summary = "앨범 모두 조회")
     @GetMapping
     public ResponseEntity<PageResponse<GetAlbumRes>> getAlbums(Pageable pageable){

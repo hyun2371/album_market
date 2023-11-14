@@ -12,14 +12,12 @@ import static com.prgrms.album_market.order.dto.OrderResponse.*;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
-
 public class OrderMapper {
-    public static Order toOrder(Member member, Album album, Integer quantity, int totalPrice) {
+    public static Order toOrder(Member member, Album album, Integer quantity) {
         return Order.builder()
                 .member(member)
                 .album(album)
                 .quantity(quantity)
-                .totalPrice(totalPrice)
                 .build();
     }
 

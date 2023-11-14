@@ -43,20 +43,27 @@ public class Member extends BaseEntity {
         this.address = address;
     }
 
-    public int payMoney(int amount) {
+    public void payMoney(int amount) {
         if (balance - amount < 0) {
             throw new CustomException(NOT_ENOUGH_MONEY);
         }
         balance -= amount;
-        return balance;
     }
 
     public int chargeMoney(int amount) {
-        if (amount < 1000) {
+        if (amount < 1000) {//total price받고 0.1*
             throw new CustomException(INVALID_FORMAT_MONEY);
         }
         balance += amount;
         return balance;
+    }
+
+    public void refundMoney(int amount){
+        balance += amount;
+    }
+
+    public void savePoint(int totalPrice) {
+        balance += (int) (totalPrice * 0.1);
     }
 
     public Member updateMember(UpdateReq request) {

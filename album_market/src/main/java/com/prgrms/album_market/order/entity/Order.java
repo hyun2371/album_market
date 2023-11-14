@@ -40,12 +40,15 @@ public class Order extends BaseEntity {
     private OrderStatus orderStatus;
 
     @Builder
-    public Order(Member member, Album album, Integer quantity, int totalPrice) {
+    public Order(Member member, Album album, Integer quantity) {
         this.member = member;
         this.album = album;
         this.quantity = quantity;
-        this.totalPrice = totalPrice;
+        this.totalPrice = album.getPrice() * quantity;
         this.orderStatus = ORDERED;
+
+        album.reduceStock(quantity);
+        member.payMoney(totalPrice);
     }
 
     public void cancelOrder() {
@@ -56,6 +59,7 @@ public class Order extends BaseEntity {
             throw new CustomException(DELIVERED_CAN_NOT_CANCEL);
         }
         orderStatus = CANCELED;
+        member.refundMoney(totalPrice);
     }
 
     public void deliverOrder() {
@@ -66,5 +70,6 @@ public class Order extends BaseEntity {
             throw new CustomException(ALREADY_CANCELED_ALBUM);
         }
         orderStatus = DELIVERED;
+        member.savePoint(totalPrice);
     }
 }

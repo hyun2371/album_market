@@ -29,16 +29,11 @@ public class OrderService {
     private final MemberService memberService;
     private final AlbumService albumService;
 
-    public CreateOrderRes createOrder(Long memberId, CreateOrderReq request) {
-        Member member = memberService.getMemberEntity(memberId);
+    public CreateOrderRes createOrder(CreateOrderReq request) {
+        Member member = memberService.getMemberEntity(request.getMemberId());
         Album album = albumService.getAlbumEntity(request.getAlbumId());
-        int totalPrice = album.getPrice() * request.getQuantity();
-        int quantity = request.getQuantity();
+        Order order = toOrder(member, album, request.getQuantity());
 
-        album.reduceStock(quantity);
-        member.payMoney(totalPrice);
-
-        Order order = toOrder(member, album, quantity, totalPrice);
         orderRepository.save(order);
 
         return toCreateOrderRes(order);
@@ -64,16 +59,12 @@ public class OrderService {
         Order order = getOrderEntity(orderId);
         order.cancelOrder();
 
-        Member member = memberService.getMemberEntity(order.getMember().getId());
-        member.chargeMoney(order.getTotalPrice());
-
         return toGetOrderRes(order);
     }
 
     public GetOrderRes deliverOrder(Long orderId) {
         Order order = getOrderEntity(orderId);
         order.deliverOrder();
-        order.getMember().chargeMoney((int) (order.getTotalPrice() * 0.1)); //적립금
 
         return toGetOrderRes(order);
     }

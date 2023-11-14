@@ -20,9 +20,9 @@ public class OrderController {
     private final OrderService orderService;
 
     @Operation(summary = "주문 생성")
-    @PostMapping("/{memberId}")
-    public ResponseEntity<CreateOrderRes> createOrder(@PathVariable Long memberId, @Valid @RequestBody CreateOrderReq request) {
-        CreateOrderRes response = orderService.createOrder(memberId, request);
+    @PostMapping
+    public ResponseEntity<CreateOrderRes> createOrder(@Valid @RequestBody CreateOrderReq request) {
+        CreateOrderRes response = orderService.createOrder(request);
         return ResponseEntity.ok(response);
     }
 

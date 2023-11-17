@@ -64,12 +64,12 @@ public class AlbumService {
 
     public GetAlbumRes updateAlbum(Long albumId, UpdateAlbumReq request) {
         Album album = getAlbumEntity(albumId);
-        Album updatedAlbum = album.updateAlbumInfo(request.getTitle(),
-                request.getArtist(),
-                request.getCategory(),
-                request.getImgUrl(),
-                request.getReleaseDate(),
-                request.getPrice());
+        Album updatedAlbum = album.updateAlbumInfo(request.title(),
+                request.artist(),
+                request.category(),
+                request.imgUrl(),
+                request.releaseDate(),
+                request.price());
         return toGetAlbumRes(updatedAlbum);
     }
 

@@ -15,8 +15,8 @@ import static lombok.AccessLevel.PRIVATE;
 public class SongMapper {
     public static Song toSong(CreateSongReq request, Album album) {
         return Song.builder()
-                .name(request.getName())
-                .isTitle(request.getIsTitle())
+                .name(request.name())
+                .isTitle(request.isTitle())
                 .album(album)
                 .build();
     }

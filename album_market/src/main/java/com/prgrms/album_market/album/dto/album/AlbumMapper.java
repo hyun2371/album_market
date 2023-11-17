@@ -34,12 +34,12 @@ public class AlbumMapper {
     // dto->entity
     public static Album toAlbum(AlbumRequest.CreateAlbumReq request) {
         return Album.builder()
-                .title(request.getTitle())
-                .artist(request.getArtist())
-                .category(Category.matchCategory(request.getCategory()))
-                .imgUrl(request.getImgUrl())
-                .releaseDate(LocalDate.parse(request.getReleaseDate()))
-                .price(request.getPrice())
+                .title(request.title())
+                .artist(request.artist())
+                .category(Category.matchCategory(request.category()))
+                .imgUrl(request.imgUrl())
+                .releaseDate(LocalDate.parse(request.releaseDate()))
+                .price(request.price())
                 .build();
     }
 }

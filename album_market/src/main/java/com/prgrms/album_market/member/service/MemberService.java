@@ -25,16 +25,16 @@ public class MemberService {
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public SignUpRes signUp(SignUpReq request) {
-        validateEmail(request.getEmail());
-        String encodedPassword = encoder.encode(request.getPassword());
+        validateEmail(request.email());
+        String encodedPassword = encoder.encode(request.password());
         Member savedMember = memberRepository.save(toMember(request, encodedPassword));
         return toSignUpRes(savedMember);
     }
 
     public LoginRes login(LoginReq request) {
-        Member member = memberRepository.findByEmail(request.getEmail())
+        Member member = memberRepository.findByEmail(request.email())
                 .orElseThrow(() -> new CustomException(NOT_EXIST_MEMBER_EMAIL));
-        if (!encoder.matches(request.getPassword(), member.getPassword())) {
+        if (!encoder.matches(request.password(), member.getPassword())) {
             throw new CustomException(WRONG_MEMBER_PASSWORD);
         }
         return toLoginRes(member);
@@ -54,17 +54,17 @@ public class MemberService {
     }
     public GetMemberRes updateMember(Long memberId, UpdateReq request) {
         Member member = getMemberEntity(memberId);
-        if (!request.getEmail().equals(member.getEmail())){
-            validateEmail(request.getEmail());
+        if (!request.email().equals(member.getEmail())){
+            validateEmail(request.email());
         }
 
         Member updatedMember = member.updateInfo(
-                request.getEmail(),
-                request.getName(),
-                request.getPhoneNumber(),
-                request.getCity(),
-                request.getStreet(),
-                request.getZipcode());
+                request.email(),
+                request.name(),
+                request.phoneNumber(),
+                request.city(),
+                request.street(),
+                request.zipcode());
 
         return toGetMemberRes(updatedMember);
     }

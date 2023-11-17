@@ -24,8 +24,8 @@ public class SongService {
     private final AlbumService albumService;
 
     public CreateSongRes createSong(SongRequest.CreateSongReq request) {
-        Album album = albumService.getAlbumEntity(request.getAlbumId());
-        if (songRepository.existsByAlbumAndName(album, request.getName())) {
+        Album album = albumService.getAlbumEntity(request.albumId());
+        if (songRepository.existsByAlbumAndName(album, request.name())) {
             throw new CustomException(ALREADY_EXISTS_SONG);
         }
         Song song = toSong(request, album);

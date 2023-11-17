@@ -30,9 +30,9 @@ public class OrderService {
     private final AlbumService albumService;
 
     public CreateOrderRes createOrder(CreateOrderReq request) {
-        Member member = memberService.getMemberEntity(request.getMemberId());
-        Album album = albumService.getAlbumEntity(request.getAlbumId());
-        Order order = toOrder(member, album, request.getQuantity());
+        Member member = memberService.getMemberEntity(request.memberId());
+        Album album = albumService.getAlbumEntity(request.albumId());
+        Order order = toOrder(member, album, request.quantity());
 
         orderRepository.save(order);
 

@@ -51,11 +51,11 @@ public class MemberMapper {
     // dto -> entity
     public static Member toMember(SignUpReq request, String encodedPassword) {
         return Member.builder()
-                .email(request.getEmail())
+                .email(request.email())
                 .password(encodedPassword)
-                .name(request.getName())
-                .phoneNumber(request.getPhoneNumber())
-                .address(new Address(request.getCity(), request.getStreet(), request.getZipcode()))
+                .name(request.name())
+                .phoneNumber(request.phoneNumber())
+                .address(new Address(request.city(), request.street(), request.zipcode()))
                 .build();
     }
 }

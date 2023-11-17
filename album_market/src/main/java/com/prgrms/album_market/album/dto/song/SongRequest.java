@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-import static lombok.AccessLevel.PROTECTED;
+import static lombok.AccessLevel.PRIVATE;
 
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor(access = PRIVATE)
 public class SongRequest {
     @RequiredArgsConstructor
     @Getter

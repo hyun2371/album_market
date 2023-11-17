@@ -6,9 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static lombok.AccessLevel.PROTECTED;
+import static lombok.AccessLevel.PRIVATE;
 
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor(access = PRIVATE)
 public class AlbumRequest {
 
     @Getter

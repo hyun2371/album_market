@@ -13,7 +13,7 @@ spring:
       hibernate:
         format_sql: true
     open-in-view: false
-  # Swagger springdoc-ui Configuration
+
 springdoc:
   packages-to-scan: com.prgrms.album_market
   default-consumes-media-type: application/json;charset=UTF-8

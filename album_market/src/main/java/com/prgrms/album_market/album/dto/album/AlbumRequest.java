@@ -35,16 +35,23 @@ public class AlbumRequest {
 
     @Getter
     public static class UpdateAlbumReq {
+        @NotBlank(message = "제목을 입력해주세요.")
         private String title;
 
+        @NotBlank(message = "아티스트를 입력해주세요.")
         private String artist;
 
+        @NotBlank(message = "카테고리를 입력해주세요.")
         private String category;
 
+        @NotBlank(message = "이미지 주소를 입력해주세요.")
         private String imgUrl;
 
+        @NotBlank(message = "발매일을 입력해주세요.")
         private String releaseDate;
 
+        @NotNull(message = "가격을 입력해주세요.")
+        @Min(value = 0, message = "가격은 0이상이어야 합니다.")
         private Integer price;
     }
 }

@@ -40,7 +40,7 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "회원 업데이트")
+    @Operation(summary = "주문 취소")
     @PostMapping("cancel/{orderId}")
     public ResponseEntity<GetOrderRes> cancelOrder(@PathVariable Long orderId) {
         GetOrderRes response = orderService.cancelOrder(orderId);

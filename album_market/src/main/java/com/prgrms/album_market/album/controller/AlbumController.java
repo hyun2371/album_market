@@ -48,8 +48,8 @@ public class AlbumController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "앨범 수정")
-    @PatchMapping("/{albumId}")
+    @Operation(summary = "앨범 업데이트")
+    @PutMapping("/{albumId}")
     public ResponseEntity<GetAlbumRes> updateAlbum(@PathVariable Long albumId, @RequestBody UpdateAlbumReq request) {
         GetAlbumRes response = albumService.updateAlbum(albumId, request);
         return ResponseEntity.ok(response);

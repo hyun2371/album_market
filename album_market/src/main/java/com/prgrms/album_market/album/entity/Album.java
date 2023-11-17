@@ -6,12 +6,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDate;
 
-import static com.prgrms.album_market.album.dto.album.AlbumRequest.UpdateAlbumReq;
-import static com.prgrms.album_market.common.exception.ErrorCode.*;
+import static com.prgrms.album_market.common.exception.ErrorCode.INVALID_FORMAT_STOCK;
+import static com.prgrms.album_market.common.exception.ErrorCode.OUT_OF_STOCK;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
@@ -19,7 +18,6 @@ import static lombok.AccessLevel.PROTECTED;
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-@DynamicInsert
 public class Album extends BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -43,27 +41,17 @@ public class Album extends BaseEntity {
         this.imgUrl = imgUrl;
         this.releaseDate = releaseDate;
         this.price = price;
+        this.stock = 0;
+        this.likeCount = 0;
     }
 
-    public Album updateAlbumInfo(UpdateAlbumReq request) {
-        if (request.getTitle() != null) {
-            this.title = request.getTitle();
-        }
-        if (request.getArtist() != null) {
-            this.artist = request.getArtist();
-        }
-        if (request.getCategory() != null) {
-            this.category = Category.matchCategory(request.getCategory());
-        }
-        if (request.getReleaseDate() != null) {
-            this.releaseDate = LocalDate.parse(request.getReleaseDate());
-        }
-        if (request.getPrice() != null) {
-            if (request.getPrice() < 0) {
-                throw new CustomException(INVALID_FORMAT_PRICE);
-            }
-            this.price = request.getPrice();
-        }
+    public Album updateAlbumInfo(String title, String artist, String category, String imgUrl, String releaseDate, Integer price) {
+        this.title = title;
+        this.artist = artist;
+        this.category = Category.matchCategory(category);
+        this.imgUrl = imgUrl;
+        this.releaseDate = LocalDate.parse(releaseDate);
+        this.price = price;
         return this;
     }
 

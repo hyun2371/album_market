@@ -25,10 +25,7 @@ public class MemberService {
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public SignUpRes signUp(SignUpReq request) {
-        memberRepository.findByEmail(request.getEmail())
-                .ifPresent(m -> {
-                    throw new CustomException(ALREADY_EXIST_EMAIL);
-                });
+        validateEmail(request.getEmail());
         String encodedPassword = encoder.encode(request.getPassword());
         Member savedMember = memberRepository.save(toMember(request, encodedPassword));
         return toSignUpRes(savedMember);
@@ -36,7 +33,7 @@ public class MemberService {
 
     public LoginRes login(LoginReq request) {
         Member member = memberRepository.findByEmail(request.getEmail())
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new CustomException(NOT_EXIST_MEMBER_EMAIL));
         if (!encoder.matches(request.getPassword(), member.getPassword())) {
             throw new CustomException(WRONG_MEMBER_PASSWORD);
         }
@@ -55,14 +52,22 @@ public class MemberService {
 
         return toGetMemberListRes(members);
     }
-
     public GetMemberRes updateMember(Long memberId, UpdateReq request) {
         Member member = getMemberEntity(memberId);
-        Member updatedMember = member.updateMember(request);
+        if (!request.getEmail().equals(member.getEmail())){
+            validateEmail(request.getEmail());
+        }
+
+        Member updatedMember = member.updateInfo(
+                request.getEmail(),
+                request.getName(),
+                request.getPhoneNumber(),
+                request.getCity(),
+                request.getStreet(),
+                request.getZipcode());
 
         return toGetMemberRes(updatedMember);
     }
-
     public void deleteMember(Long memberId) {
         Member member = getMemberEntity(memberId);
         orderRepository.deleteByMember(member);
@@ -76,7 +81,12 @@ public class MemberService {
     }
 
     public Member getMemberEntity(Long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new CustomException(NOT_EXIST_MEMBER_ID));
+        return memberRepository.findById(memberId).orElseThrow(() -> new CustomException(NOT_EXIST_MEMBER_ID));
+    }
+
+    private void validateEmail(String email) {
+        memberRepository.findByEmail(email).ifPresent(m -> {
+            throw new CustomException(ALREADY_EXIST_EMAIL);
+        });
     }
 }

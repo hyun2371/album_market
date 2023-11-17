@@ -1,14 +1,13 @@
 package com.prgrms.album_market.member.entity;
 
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import static lombok.AccessLevel.*;
 
 @Embeddable
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
 @Setter
 public class Address {

@@ -9,18 +9,15 @@ import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicInsert;
 
 import static com.prgrms.album_market.common.exception.ErrorCode.INVALID_FORMAT_MONEY;
 import static com.prgrms.album_market.common.exception.ErrorCode.NOT_ENOUGH_MONEY;
-import static com.prgrms.album_market.member.dto.MemberRequest.UpdateReq;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-@DynamicInsert
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -41,6 +38,7 @@ public class Member extends BaseEntity {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.balance = 0;
     }
 
     public void payMoney(int amount) {
@@ -57,7 +55,6 @@ public class Member extends BaseEntity {
         balance += amount;
         return balance;
     }
-
     public void refundMoney(int amount){
         balance += amount;
     }
@@ -66,25 +63,13 @@ public class Member extends BaseEntity {
         balance += (int) (totalPrice * 0.1);
     }
 
-    public Member updateMember(UpdateReq request) {
-        if (request.getEmail() != null) {
-            this.email = request.getEmail();
-        }
-        if (request.getName() != null) {
-            this.name = request.getName();
-        }
-        if (request.getPhoneNumber() != null) {
-            this.phoneNumber = request.getPhoneNumber();
-        }
-        if (request.getCity() != null) {
-            this.address.setCity(request.getCity());
-        }
-        if (request.getStreet() != null) {
-            this.address.setStreet(request.getStreet());
-        }
-        if (request.getZipcode() != null) {
-            this.address.setZipcode(request.getZipcode());
-        }
+    public Member updateInfo(final String email, final String name, final String phoneNumber, final String city, final String street, final String zipcode){
+        this.email = email;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.address.setCity(city);
+        this.address.setStreet(street);
+        this.address.setZipcode(zipcode);
         return this;
     }
 }

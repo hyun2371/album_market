@@ -1,5 +1,6 @@
 package com.prgrms.album_market.album.service;
 
+import com.prgrms.album_market.TestDataFactory;
 import com.prgrms.album_market.album.dto.album.AlbumResponse.CreateAlbumRes;
 import com.prgrms.album_market.album.entity.Album;
 import com.prgrms.album_market.album.entity.AlbumLike;
@@ -9,7 +10,6 @@ import com.prgrms.album_market.album.repository.SongRepository;
 import com.prgrms.album_market.common.PageResponse;
 import com.prgrms.album_market.common.exception.CustomException;
 import com.prgrms.album_market.common.exception.ErrorCode;
-import com.prgrms.album_market.member.entity.Address;
 import com.prgrms.album_market.member.entity.Member;
 import com.prgrms.album_market.member.service.MemberService;
 import org.junit.jupiter.api.Test;
@@ -25,6 +25,8 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
+import static com.prgrms.album_market.TestDataFactory.getCreateAlbumReq;
+import static com.prgrms.album_market.TestDataFactory.getMember;
 import static com.prgrms.album_market.album.dto.album.AlbumRequest.CreateAlbumReq;
 import static com.prgrms.album_market.album.dto.album.AlbumResponse.GetAlbumRes;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,14 +37,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AlbumServiceTest {
-    private static final String TITLE = "folklore";
-    private static final String ARTIEST = "Taylor Swift";
-    private static final String CATEGORY = "FOLK";
-    private static final String IMG_URL = "https://image.yes24.com/goods/91922081/XL";
-    private static final String RELEASE_DATE = "2020-08-28";
-    private static final Integer PRICE = 21900;
-    private static final Album ALBUM1 = new Album(TITLE, ARTIEST, CATEGORY, IMG_URL, RELEASE_DATE, PRICE);
-    private static final Album ALBUM2 = new Album("Different World", ARTIEST, CATEGORY, IMG_URL, RELEASE_DATE, PRICE);
+    private static final Album ALBUM1 = TestDataFactory.getAlbum();
     private static final String KEYWORD = "f";
 
     @Mock
@@ -62,7 +57,7 @@ class AlbumServiceTest {
 
     @Test
     void createAlbumSuccess(){
-        CreateAlbumReq dto = getCreateAlbumReq();
+        CreateAlbumReq dto = TestDataFactory.getCreateAlbumReq();
 
         when(albumRepository.existsByTitleAndArtist(dto.title(), dto.artist())).thenReturn(false);
         when(albumRepository.save(any(Album.class))).thenReturn(ALBUM1);
@@ -76,7 +71,9 @@ class AlbumServiceTest {
     void createAlbumFail(){
         CreateAlbumReq dto = getCreateAlbumReq();
 
-        when(albumRepository.existsByTitleAndArtist(dto.title(), dto.artist())).thenReturn(true);
+        when(albumRepository.existsByTitleAndArtist(dto.title(), dto.artist()))
+                .thenReturn(true);
+
         CustomException exception = assertThrows(CustomException.class, () -> albumService.createAlbum(dto));
         assertEquals(ErrorCode.ALREADY_EXIST_ALBUM,exception.getErrorCode());
 
@@ -102,7 +99,7 @@ class AlbumServiceTest {
     @Test
     void findAlbum(){
         Pageable pageable = PageRequest.of(0, 10);
-        List<Album> albums = List.of(ALBUM1, ALBUM2);
+        List<Album> albums = TestDataFactory.getAlbums();
         Page<Album> pagedAlbums = new PageImpl<>(albums, pageable, albums.size());
         when(albumRepository.findByTitleContaining(KEYWORD, pageable))
                 .thenReturn(pagedAlbums);
@@ -114,26 +111,13 @@ class AlbumServiceTest {
 
     @Test
     void likeAlbum(){
-        Member member = new Member("77sghyun@gmail.com", "ddd123!", "ddd", "010-2323-2322",
-                new Address("dkdkdkd", "dkdkdkd", "20302"));
+        Member member = getMember();
         AlbumLike albumLike = new AlbumLike(ALBUM1,member);
-
         when(memberService.getMemberEntity(member.getId())).thenReturn(member);
         when(albumRepository.findById(ALBUM1.getId())).thenReturn(Optional.of(ALBUM1));
         when(albumLikeRepository.save(any(AlbumLike.class))).thenReturn(albumLike);
 
         albumService.likeAlbum(ALBUM1.getId(), member.getId());
         assertEquals(1, ALBUM1.getLikeCount());
-    }
-
-    private static CreateAlbumReq getCreateAlbumReq() {
-        return CreateAlbumReq.builder()
-                .title(TITLE)
-                .artist(ARTIEST)
-                .category(CATEGORY)
-                .imgUrl(IMG_URL)
-                .releaseDate(RELEASE_DATE)
-                .price(PRICE)
-                .build();
     }
 }

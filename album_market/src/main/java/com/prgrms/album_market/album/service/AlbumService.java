@@ -34,12 +34,11 @@ public class AlbumService {
 
 
     public CreateAlbumRes createAlbum(CreateAlbumReq request) {
-        Album album = toAlbum(request);
-        if (albumRepository.existsByTitleAndArtist(album.getTitle(), album.getArtist())) {
+        if (albumRepository.existsByTitleAndArtist(request.title(), request.artist())) {
             throw new CustomException(ALREADY_EXIST_ALBUM);
         }
-        albumRepository.save(album);
-        return toCreateAlbumRes(album);
+        Album savedAlbum = albumRepository.save(toAlbum(request));
+        return toCreateAlbumRes(savedAlbum);
     }
 
     @Transactional(readOnly = true)
@@ -108,7 +107,7 @@ public class AlbumService {
         return new AlbumLike(album, member);
     }
 
-    private AlbumLike getAlbumLikeEntity(Long memberId, Album album) {
+    public AlbumLike getAlbumLikeEntity(Long memberId, Album album) {
         Member member = memberService.getMemberEntity(memberId);
         return albumLikeRepository.findByAlbumAndMember(album, member)
                 .orElseThrow(() -> new CustomException(ALREADY_DISLIKED_ALBUM));

@@ -1,10 +1,7 @@
 package com.prgrms.album_market.album.dto.album;
 
 import com.prgrms.album_market.album.entity.Album;
-import com.prgrms.album_market.album.entity.Category;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
 
 import static com.prgrms.album_market.album.dto.album.AlbumResponse.CreateAlbumRes;
 import static com.prgrms.album_market.album.dto.album.AlbumResponse.GetAlbumRes;
@@ -36,9 +33,9 @@ public class AlbumMapper {
         return Album.builder()
                 .title(request.title())
                 .artist(request.artist())
-                .category(Category.matchCategory(request.category()))
+                .category(request.category())
                 .imgUrl(request.imgUrl())
-                .releaseDate(LocalDate.parse(request.releaseDate()))
+                .releaseDate(request.releaseDate())
                 .price(request.price())
                 .build();
     }

@@ -34,12 +34,12 @@ public class Album extends BaseEntity {
     private Integer likeCount;
 
     @Builder
-    public Album(String title, String artist, Category category, String imgUrl, LocalDate releaseDate, int price) {
+    public Album(String title, String artist, String category, String imgUrl, String releaseDate, int price) {
         this.title = title;
         this.artist = artist;
-        this.category = category;
+        this.category = Category.matchCategory(category);
         this.imgUrl = imgUrl;
-        this.releaseDate = releaseDate;
+        this.releaseDate = LocalDate.parse(releaseDate);
         this.price = price;
         this.stock = 0;
         this.likeCount = 0;

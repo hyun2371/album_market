@@ -1,6 +1,5 @@
 package com.prgrms.album_market.album.service;
 
-import com.prgrms.album_market.album.dto.song.SongRequest;
 import com.prgrms.album_market.album.entity.Album;
 import com.prgrms.album_market.album.entity.Song;
 import com.prgrms.album_market.album.repository.SongRepository;
@@ -12,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.prgrms.album_market.album.dto.song.SongMapper.*;
+import static com.prgrms.album_market.album.dto.song.SongRequest.CreateSongReq;
 import static com.prgrms.album_market.album.dto.song.SongResponse.CreateSongRes;
 import static com.prgrms.album_market.album.dto.song.SongResponse.GetSongListRes;
 import static com.prgrms.album_market.common.exception.ErrorCode.ALREADY_EXISTS_SONG;
@@ -23,7 +23,7 @@ public class SongService {
     private final SongRepository songRepository;
     private final AlbumService albumService;
 
-    public CreateSongRes createSong(SongRequest.CreateSongReq request) {
+    public CreateSongRes createSong(CreateSongReq request) {
         Album album = albumService.getAlbumEntity(request.albumId());
         if (songRepository.existsByAlbumAndName(album, request.name())) {
             throw new CustomException(ALREADY_EXISTS_SONG);

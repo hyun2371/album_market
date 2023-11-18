@@ -3,6 +3,7 @@ package com.prgrms.album_market.album.dto.album;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -10,6 +11,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public class AlbumRequest {
 
+    @Builder
     public record CreateAlbumReq(
             @NotBlank(message = "제목을 입력해주세요.")
             String title,
@@ -31,6 +33,7 @@ public class AlbumRequest {
             Integer price
     ) { }
 
+    @Builder
     public record UpdateAlbumReq(
             @NotBlank(message = "제목을 입력해주세요.")
             String title,

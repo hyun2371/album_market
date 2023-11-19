@@ -29,8 +29,8 @@ public class AlbumController {
 
     @Operation(summary = "앨범 아이디로 조회")
     @GetMapping("/{albumId}")
-    public ResponseEntity<GetAlbumRes> getAlbum(@PathVariable Long albumId) {
-        GetAlbumRes response = albumService.getAlbum(albumId);
+    public ResponseEntity<GetAlbumRes> getAlbumById(@PathVariable Long albumId) {
+        GetAlbumRes response = albumService.getAlbumById(albumId);
         return ResponseEntity.ok(response);
     }
 
@@ -43,8 +43,8 @@ public class AlbumController {
 
     @Operation(summary = "앨범 모두 조회")
     @GetMapping
-    public ResponseEntity<PageResponse<GetAlbumRes>> getAlbums(Pageable pageable) {
-        PageResponse<GetAlbumRes> response = albumService.getAlbums(pageable);
+    public ResponseEntity<PageResponse<GetAlbumRes>> getAllAlbum(Pageable pageable) {
+        PageResponse<GetAlbumRes> response = albumService.getAllAlbum(pageable);
         return ResponseEntity.ok(response);
     }
 

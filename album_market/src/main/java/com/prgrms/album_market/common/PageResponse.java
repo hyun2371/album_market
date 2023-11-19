@@ -11,7 +11,7 @@ import java.util.List;
 public class PageResponse<T> {
     private int currentPage;
     private int totalPages;
-    private long totalItems;
+    private long itemSize;
     private List<T> items;
 
     //Page<T> 객체 -> PageResponse<T> 객체

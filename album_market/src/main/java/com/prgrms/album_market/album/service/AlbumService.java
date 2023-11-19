@@ -42,13 +42,13 @@ public class AlbumService {
     }
 
     @Transactional(readOnly = true)
-    public GetAlbumRes getAlbum(Long albumId) {
+    public GetAlbumRes getAlbumById(Long albumId) {
         Album album = getAlbumEntity(albumId);
         return toGetAlbumRes(album);
     }
 
     @Transactional(readOnly = true)
-    public PageResponse<GetAlbumRes> getAlbums(Pageable pageable) {
+    public PageResponse<GetAlbumRes> getAllAlbum(Pageable pageable) {
         Page<Album> pagedAlbums = albumRepository.findAll(pageable);
         Page<GetAlbumRes> pagedGetAlbumRes = pagedAlbums.map(AlbumMapper::toGetAlbumRes);
         return PageResponse.fromPage(pagedGetAlbumRes);

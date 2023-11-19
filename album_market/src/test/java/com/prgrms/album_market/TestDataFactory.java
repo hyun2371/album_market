@@ -1,5 +1,6 @@
 package com.prgrms.album_market;
 
+import com.prgrms.album_market.album.dto.album.AlbumResponse;
 import com.prgrms.album_market.album.entity.Album;
 import com.prgrms.album_market.member.entity.Address;
 import com.prgrms.album_market.member.entity.Member;
@@ -41,6 +42,10 @@ public class TestDataFactory {
                 .releaseDate("2020-08-28")
                 .price(21900)
                 .build();
+    }
+
+    public static AlbumResponse.CreateAlbumRes getCreateAlbumRes(){
+        return new AlbumResponse.CreateAlbumRes(1L);
     }
 
     public static Member getMember(){

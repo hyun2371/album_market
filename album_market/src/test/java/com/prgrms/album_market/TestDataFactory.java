@@ -1,6 +1,6 @@
 package com.prgrms.album_market;
 
-import com.prgrms.album_market.album.dto.album.AlbumResponse;
+import com.prgrms.album_market.album.dto.album.AlbumMapper;
 import com.prgrms.album_market.album.entity.Album;
 import com.prgrms.album_market.member.entity.Address;
 import com.prgrms.album_market.member.entity.Member;
@@ -8,6 +8,9 @@ import com.prgrms.album_market.member.entity.Member;
 import java.util.List;
 
 import static com.prgrms.album_market.album.dto.album.AlbumRequest.CreateAlbumReq;
+import static com.prgrms.album_market.album.dto.album.AlbumRequest.UpdateAlbumReq;
+import static com.prgrms.album_market.album.dto.album.AlbumResponse.CreateAlbumRes;
+import static com.prgrms.album_market.album.dto.album.AlbumResponse.GetAlbumRes;
 
 public class TestDataFactory {
     public static Album getAlbum(){
@@ -44,8 +47,34 @@ public class TestDataFactory {
                 .build();
     }
 
-    public static AlbumResponse.CreateAlbumRes getCreateAlbumRes(){
-        return new AlbumResponse.CreateAlbumRes(1L);
+    public static GetAlbumRes getUpdateAlbumRes() {
+        return GetAlbumRes.builder()
+                .title("Midnights")
+                .artist("Taylor Swift")
+                .category("POP")
+                .imgUrl("https://image.yes24.com/goods/91922081/XL")
+                .releaseDate("2022-10-21")
+                .price(20900)
+                .build();
+    }
+
+    public static GetAlbumRes getAlbumRes(){
+        return AlbumMapper.toGetAlbumRes(getAlbum());
+    }
+
+    public static UpdateAlbumReq getUpdateAlbumReq(){
+        return UpdateAlbumReq.builder()
+                .title("folklore")
+                .artist("Taylor Swift")
+                .category("FOLK")
+                .imgUrl("https://image.yes24.com/goods/91922081/XL")
+                .releaseDate("2020-08-28")
+                .price(20900)
+                .build();
+    }
+
+    public static CreateAlbumRes getCreateAlbumRes(){
+        return new CreateAlbumRes(1L);
     }
 
     public static Member getMember(){

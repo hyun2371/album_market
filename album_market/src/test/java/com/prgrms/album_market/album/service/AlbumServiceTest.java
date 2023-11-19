@@ -6,7 +6,6 @@ import com.prgrms.album_market.album.entity.Album;
 import com.prgrms.album_market.album.entity.AlbumLike;
 import com.prgrms.album_market.album.repository.AlbumLikeRepository;
 import com.prgrms.album_market.album.repository.AlbumRepository;
-import com.prgrms.album_market.album.repository.SongRepository;
 import com.prgrms.album_market.common.PageResponse;
 import com.prgrms.album_market.common.exception.CustomException;
 import com.prgrms.album_market.common.exception.ErrorCode;
@@ -49,9 +48,6 @@ class AlbumServiceTest {
     @Mock
     private MemberService memberService;
 
-    @Mock
-    private SongRepository songRepository;
-
     @InjectMocks
     private AlbumService albumService;
 
@@ -64,7 +60,7 @@ class AlbumServiceTest {
 
         CreateAlbumRes createdAlbumRes = albumService.createAlbum(dto);
 
-        assertEquals(ALBUM1.getId(), createdAlbumRes.getCreatedAlbumId());
+        assertEquals(ALBUM1.getId(), createdAlbumRes.createdAlbumId());
     }
 
     @Test
@@ -106,7 +102,7 @@ class AlbumServiceTest {
 
         PageResponse<GetAlbumRes> pageResponse = albumService.findAlbum(KEYWORD, pageable);
         assertEquals(albums.size(), pageResponse.getItems().size());
-        assertEquals(pagedAlbums.getTotalElements(), pageResponse.getTotalItems());
+        assertEquals(pagedAlbums.getTotalElements(), pageResponse.getItemSize());
     }
 
     @Test

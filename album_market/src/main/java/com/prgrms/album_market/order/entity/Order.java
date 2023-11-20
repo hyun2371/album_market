@@ -51,6 +51,19 @@ public class Order extends BaseEntity {
         member.payMoney(totalPrice);
     }
 
+    @Builder
+    public Order(Long id, Member member, Album album, Integer quantity) {
+        this.id = id;
+        this.member = member;
+        this.album = album;
+        this.quantity = quantity;
+        this.totalPrice = album.getPrice() * quantity;
+        this.orderStatus = ORDERED;
+
+        album.reduceStock(quantity);
+        member.payMoney(totalPrice);
+    }
+
     public void cancelOrder() {
         if (orderStatus == CANCELED) {
             throw new CustomException(ALREADY_CANCELED_ALBUM);

@@ -1,13 +1,14 @@
 package com.prgrms.album_market.order.dto;
 
 import jakarta.validation.constraints.Min;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
 public class OrderRequest {
-
+    @Builder
     public record CreateOrderReq(
             Long memberId,
             Long albumId,

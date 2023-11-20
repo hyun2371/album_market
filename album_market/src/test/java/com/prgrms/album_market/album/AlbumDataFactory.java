@@ -12,17 +12,20 @@ import static com.prgrms.album_market.album.dto.album.AlbumResponse.GetAlbumRes;
 
 public class AlbumDataFactory {
     public static Album getAlbum(){
-        return Album.builder()
+        Album album = Album.builder()
                 .title("folklore")
                 .artist("Taylor Swift")
                 .category("FOLK")
                 .imgUrl("https://image.yes24.com/goods/91922081/XL")
                 .releaseDate("2020-08-28")
-                .price(21900)
+                .price(2190)
                 .build();
+        album.increaseStock(3);
+        return album;
     }
 
     public static List<Album> getAlbums(){
+        Album album1 = getAlbum();
         Album album2 = Album.builder()
                 .title("Different World")
                 .artist("Alan Walker")
@@ -31,7 +34,7 @@ public class AlbumDataFactory {
                 .releaseDate("2018-12-14")
                 .price(19300)
                 .build();
-        return List.of(getAlbum(), album2);
+        return List.of(album1, album2);
     }
 
     public static CreateAlbumReq getCreateAlbumReq() {

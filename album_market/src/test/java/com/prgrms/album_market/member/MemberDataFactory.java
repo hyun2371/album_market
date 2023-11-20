@@ -12,13 +12,20 @@ import static com.prgrms.album_market.member.dto.MemberResponse.*;
 public class MemberDataFactory {
     private static final String EMAIL1 = "hyun1@gmail.com";
     private static final String EMAIL2 = "hyun2@gmail.com";
-    public static Member getMember(Long id, String email){
-        return new Member(id,email, "ddd123!", "hyun", "010-3242-3233",
+    public static Member getMember(String email){
+        return new Member(email, "ddd123!", "hyun", "010-3242-3233",
                 new Address("서울시", "중구", "04583"));
     }
 
+    public static Member getMember(){
+        Member member = new Member("hyun@gmail.com", "ddd123!", "hyun", "010-3242-3233",
+                new Address("서울시", "중구", "04583"));
+        member.chargeMoney(10000);
+        return member;
+    }
+
     public static SignUpRes getSignUpRes(){
-        return toSignUpRes(getMember(1L, EMAIL1));
+        return toSignUpRes(getMember(EMAIL1));
     }
 
     public static MemberRequest.SignUpReq getSignUpReq(){
@@ -34,13 +41,13 @@ public class MemberDataFactory {
     }
 
     public static GetMemberRes getMemberRes(){
-        return toGetMemberRes(getMember(1L, EMAIL1));
+        return toGetMemberRes(getMember(EMAIL1));
     }
 
     public static GetMemberListRes getMemberListRes(){
         List<Member> members = new ArrayList<>();
-        members.add(getMember(1L, EMAIL1));
-        members.add(getMember(2L, EMAIL2));
+        members.add(getMember(EMAIL1));
+        members.add(getMember( EMAIL2));
         return toGetMemberListRes(members);
     }
 }

@@ -107,7 +107,7 @@ class AlbumServiceTest {
 
     @Test
     void likeAlbum(){
-        Member member = getMember(1L,"hyun@gmail.com");
+        Member member = getMember("hyun@gmail.com");
         AlbumLike albumLike = new AlbumLike(ALBUM1,member);
         when(memberService.getMemberEntity(member.getId())).thenReturn(member);
         when(albumRepository.findById(ALBUM1.getId())).thenReturn(Optional.of(ALBUM1));

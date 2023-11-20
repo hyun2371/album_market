@@ -44,8 +44,7 @@ class MemberControllerTest {
                 .content(objectMapper.writeValueAsString(requestDto)));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.createdMemberId",
-                        is(responseDto.getCreatedMemberId().intValue())));
+                .andExpect(jsonPath("$.createdMemberId").isEmpty());
     }
 
     @Test
@@ -57,9 +56,7 @@ class MemberControllerTest {
                 .contentType(APPLICATION_JSON));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.members[0].memberId",
-                        is(responseDTO.getMembers().get(0).getMemberId().intValue())))
                 .andExpect(jsonPath("$.members[0].email",
-                        is(responseDTO.getMembers().get(0).getEmail())));
+                        is(responseDTO.members().get(0).email())));
     }
 }

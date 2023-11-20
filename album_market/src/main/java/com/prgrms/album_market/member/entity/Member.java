@@ -41,6 +41,17 @@ public class Member extends BaseEntity {
         this.balance = 0;
     }
 
+    @Builder
+    public Member(Long id, String email, String password, String name, String phoneNumber, Address address) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.balance = 0;
+    }
+
     public void payMoney(int amount) {
         if (balance - amount < 0) {
             throw new CustomException(NOT_ENOUGH_MONEY);

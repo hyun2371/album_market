@@ -15,9 +15,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import static com.prgrms.album_market.album.AlbumDataFactory.album;
-import static com.prgrms.album_market.member.MemberDataFactory.member;
-import static com.prgrms.album_market.order.OrderDataFactory.createOrderReq;
+import static com.prgrms.album_market.album.AlbumFixture.album;
+import static com.prgrms.album_market.member.MemberFixture.member;
+import static com.prgrms.album_market.order.OrderFixture.createOrderReq;
 import static com.prgrms.album_market.order.dto.OrderResponse.CreateOrderRes;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.List;
 
-import static com.prgrms.album_market.album.AlbumDataFactory.*;
+import static com.prgrms.album_market.album.AlbumFixture.*;
 import static com.prgrms.album_market.album.dto.album.AlbumRequest.CreateAlbumReq;
 import static com.prgrms.album_market.album.dto.album.AlbumRequest.UpdateAlbumReq;
 import static com.prgrms.album_market.album.dto.album.AlbumResponse.CreateAlbumRes;

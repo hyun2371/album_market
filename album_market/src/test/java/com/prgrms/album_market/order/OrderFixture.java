@@ -5,7 +5,7 @@ import com.prgrms.album_market.member.entity.Member;
 import com.prgrms.album_market.order.dto.OrderRequest;
 import com.prgrms.album_market.order.entity.Order;
 
-public class OrderDataFactory {
+public class OrderFixture {
 
     public static Order order(Member member, Album album, int quantity){
         return Order.builder()

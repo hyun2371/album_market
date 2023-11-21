@@ -1,6 +1,6 @@
 package com.prgrms.album_market.album.service;
 
-import com.prgrms.album_market.album.AlbumDataFactory;
+import com.prgrms.album_market.album.AlbumFixture;
 import com.prgrms.album_market.album.dto.album.AlbumResponse.CreateAlbumRes;
 import com.prgrms.album_market.album.entity.Album;
 import com.prgrms.album_market.album.entity.AlbumLike;
@@ -24,10 +24,10 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
-import static com.prgrms.album_market.album.AlbumDataFactory.getCreateAlbumReq;
+import static com.prgrms.album_market.album.AlbumFixture.getCreateAlbumReq;
 import static com.prgrms.album_market.album.dto.album.AlbumRequest.CreateAlbumReq;
 import static com.prgrms.album_market.album.dto.album.AlbumResponse.GetAlbumRes;
-import static com.prgrms.album_market.member.MemberDataFactory.getMember;
+import static com.prgrms.album_market.member.MemberFixture.member;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,7 +36,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AlbumServiceTest {
-    private static final Album ALBUM1 = AlbumDataFactory.getAlbum();
+    private static final Album ALBUM1 = AlbumFixture.album();
     private static final String KEYWORD = "f";
 
     @Mock
@@ -53,7 +53,7 @@ class AlbumServiceTest {
 
     @Test
     void createAlbumSuccess(){
-        CreateAlbumReq dto = AlbumDataFactory.getCreateAlbumReq();
+        CreateAlbumReq dto = AlbumFixture.getCreateAlbumReq();
 
         when(albumRepository.existsByTitleAndArtist(dto.title(), dto.artist())).thenReturn(false);
         when(albumRepository.save(any(Album.class))).thenReturn(ALBUM1);
@@ -95,7 +95,7 @@ class AlbumServiceTest {
     @Test
     void findAlbum(){
         Pageable pageable = PageRequest.of(0, 10);
-        List<Album> albums = AlbumDataFactory.getAlbums();
+        List<Album> albums = AlbumFixture.getAlbums();
         Page<Album> pagedAlbums = new PageImpl<>(albums, pageable, albums.size());
         when(albumRepository.findByTitleContaining(KEYWORD, pageable))
                 .thenReturn(pagedAlbums);
@@ -107,7 +107,7 @@ class AlbumServiceTest {
 
     @Test
     void likeAlbum(){
-        Member member = getMember("hyun@gmail.com");
+        Member member = member("hyun@gmail.com");
         AlbumLike albumLike = new AlbumLike(ALBUM1,member);
         when(memberService.getMemberEntity(member.getId())).thenReturn(member);
         when(albumRepository.findById(ALBUM1.getId())).thenReturn(Optional.of(ALBUM1));

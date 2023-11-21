@@ -9,7 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static com.prgrms.album_market.member.MemberDataFactory.*;
+import static com.prgrms.album_market.member.MemberFixture.*;
 import static com.prgrms.album_market.member.dto.MemberRequest.SignUpReq;
 import static com.prgrms.album_market.member.dto.MemberResponse.GetMemberListRes;
 import static com.prgrms.album_market.member.dto.MemberResponse.SignUpRes;
@@ -44,7 +44,7 @@ class MemberControllerTest {
                 .content(objectMapper.writeValueAsString(requestDto)));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.createdMemberId").isEmpty());
+                .andExpect(jsonPath("$.createdMemberId", is(responseDto.createdMemberId().intValue())));
     }
 
     @Test

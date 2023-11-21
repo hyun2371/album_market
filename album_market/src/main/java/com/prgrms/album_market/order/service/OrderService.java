@@ -23,17 +23,16 @@ import static com.prgrms.album_market.order.dto.OrderResponse.GetOrderRes;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class OrderService {
     private final OrderRepository orderRepository;
     private final MemberService memberService;
     private final AlbumService albumService;
 
+    @Transactional
     public CreateOrderRes createOrder(CreateOrderReq request) {
         Member member = memberService.getMemberEntity(request.memberId());
         Album album = albumService.getAlbumEntity(request.albumId());
         Order order = toOrder(member, album, request.quantity());
-
         orderRepository.save(order);
 
         return toCreateOrderRes(order);
@@ -55,6 +54,7 @@ public class OrderService {
         return PageResponse.fromPage(pagedGetOrderRes);
     }
 
+    @Transactional
     public GetOrderRes cancelOrder(Long orderId) {
         Order order = getOrderEntity(orderId);
         order.cancelOrder();
@@ -62,6 +62,7 @@ public class OrderService {
         return toGetOrderRes(order);
     }
 
+    @Transactional
     public GetOrderRes deliverOrder(Long orderId) {
         Order order = getOrderEntity(orderId);
         order.deliverOrder();
@@ -69,6 +70,7 @@ public class OrderService {
         return toGetOrderRes(order);
     }
 
+    @Transactional
     public Order getOrderEntity(Long orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXISTS_ORDER_ID));

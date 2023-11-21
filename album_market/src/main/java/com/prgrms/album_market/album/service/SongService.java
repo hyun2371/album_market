@@ -18,11 +18,11 @@ import static com.prgrms.album_market.common.exception.ErrorCode.ALREADY_EXISTS_
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class SongService {
     private final SongRepository songRepository;
     private final AlbumService albumService;
 
+    @Transactional
     public CreateSongRes createSong(CreateSongReq request) {
         Album album = albumService.getAlbumEntity(request.albumId());
         if (songRepository.existsByAlbumAndName(album, request.name())) {

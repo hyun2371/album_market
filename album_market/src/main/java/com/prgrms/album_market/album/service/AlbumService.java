@@ -25,7 +25,6 @@ import static com.prgrms.album_market.common.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class AlbumService {
     private final AlbumRepository albumRepository;
     private final AlbumLikeRepository albumLikeRepository;
@@ -33,6 +32,7 @@ public class AlbumService {
     private final MemberService memberService;
 
 
+    @Transactional
     public CreateAlbumRes createAlbum(CreateAlbumReq request) {
         if (albumRepository.existsByTitleAndArtist(request.title(), request.artist())) {
             throw new CustomException(ALREADY_EXIST_ALBUM);
@@ -61,6 +61,7 @@ public class AlbumService {
         return PageResponse.fromPage(pagedGetAlbumRes);
     }
 
+    @Transactional
     public GetAlbumRes updateAlbum(Long albumId, UpdateAlbumReq request) {
         Album album = getAlbumEntity(albumId);
         Album updatedAlbum = album.updateAlbumInfo(request.title(),
@@ -72,19 +73,22 @@ public class AlbumService {
         return toGetAlbumRes(updatedAlbum);
     }
 
+    @Transactional
     public void deleteAlbum(Long albumId) {
         Album album = getAlbumEntity(albumId);
         songRepository.deleteByAlbum(album);
         albumRepository.delete(album);
     }
 
+    @Transactional
     public void likeAlbum(Long albumId, Long memberId) {
         Album album = getAlbumEntity(albumId);
-        AlbumLike albumLike = createAlbumEntity(memberId, album);
+        AlbumLike albumLike = createAlbumLikeEntity(memberId, album);
         albumLikeRepository.save(albumLike);
         album.updateLikeCount(1);
     }
 
+    @Transactional
     public void dislikeAlbum(Long albumId, Long memberId) {
         Album album = getAlbumEntity(albumId);
         AlbumLike albumLike = getAlbumLikeEntity(memberId, album);
@@ -93,13 +97,15 @@ public class AlbumService {
         album.updateLikeCount(-1);
     }
 
+    @Transactional
     public GetAlbumRes increaseAlbumStock(Long albumId, Integer quantity) {
         Album album = getAlbumEntity(albumId);
         album.increaseStock(quantity);
         return toGetAlbumRes(album);
     }
 
-    private AlbumLike createAlbumEntity(Long memberId, Album album) {
+    @Transactional(readOnly = true)
+    public AlbumLike createAlbumLikeEntity(Long memberId, Album album) {
         Member member = memberService.getMemberEntity(memberId);
         if (albumLikeRepository.existsByAlbumAndMember(album, member)) {
             throw new CustomException(ALREADY_LIKED_ALBUM);
@@ -107,12 +113,14 @@ public class AlbumService {
         return new AlbumLike(album, member);
     }
 
+    @Transactional(readOnly = true)
     public AlbumLike getAlbumLikeEntity(Long memberId, Album album) {
         Member member = memberService.getMemberEntity(memberId);
         return albumLikeRepository.findByAlbumAndMember(album, member)
                 .orElseThrow(() -> new CustomException(ALREADY_DISLIKED_ALBUM));
     }
 
+    @Transactional(readOnly = true)
     public Album getAlbumEntity(Long albumId) {
         return albumRepository.findById(albumId)
                 .orElseThrow(() -> new CustomException(NOT_EXISTS_ALBUM_ID));

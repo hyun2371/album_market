@@ -18,12 +18,12 @@ import static com.prgrms.album_market.member.dto.MemberResponse.*;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
     private final OrderRepository orderRepository;
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+    @Transactional
     public SignUpRes signUp(SignUpReq request) {
         validateEmail(request.email());
         String encodedPassword = encoder.encode(request.password());
@@ -31,6 +31,7 @@ public class MemberService {
         return toSignUpRes(savedMember);
     }
 
+    @Transactional
     public LoginRes login(LoginReq request) {
         Member member = memberRepository.findByEmail(request.email())
                 .orElseThrow(() -> new CustomException(NOT_EXIST_MEMBER_EMAIL));
@@ -52,6 +53,7 @@ public class MemberService {
 
         return toGetMemberListRes(members);
     }
+    @Transactional
     public GetMemberRes updateMember(Long memberId, UpdateReq request) {
         Member member = getMemberEntity(memberId);
         if (!request.email().equals(member.getEmail())){
@@ -68,23 +70,28 @@ public class MemberService {
 
         return toGetMemberRes(updatedMember);
     }
+
+    @Transactional
     public void deleteMember(Long memberId) {
         Member member = getMemberEntity(memberId);
         orderRepository.deleteByMember(member);
         memberRepository.delete(member);
     }
 
+    @Transactional(readOnly = true)
     public BalanceRes chargeMoney(Long memberId, int amount) {
         Member member = getMemberEntity(memberId);
         int balance = member.chargeMoney(amount);
         return toBalanceRes(balance);
     }
 
+    @Transactional(readOnly = true)
     public Member getMemberEntity(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(() -> new CustomException(NOT_EXIST_MEMBER_ID));
     }
 
-    private void validateEmail(String email) {
+    @Transactional(readOnly = true)
+    public void validateEmail(String email) {
         memberRepository.findByEmail(email).ifPresent(m -> {
             throw new CustomException(ALREADY_EXIST_EMAIL);
         });

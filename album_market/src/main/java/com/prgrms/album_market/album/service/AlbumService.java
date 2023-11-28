@@ -1,6 +1,10 @@
 package com.prgrms.album_market.album.service;
 
-import com.prgrms.album_market.album.dto.album.AlbumMapper;
+import com.prgrms.album_market.album.dto.album.*;
+import com.prgrms.album_market.album.dto.album.request.CreateAlbumRequest;
+import com.prgrms.album_market.album.dto.album.request.UpdateAlbumRequest;
+import com.prgrms.album_market.album.dto.album.response.CreateAlbumResponse;
+import com.prgrms.album_market.album.dto.album.response.GetAlbumResponse;
 import com.prgrms.album_market.album.entity.Album;
 import com.prgrms.album_market.album.entity.AlbumLike;
 import com.prgrms.album_market.album.repository.AlbumLikeRepository;
@@ -17,10 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.prgrms.album_market.album.dto.album.AlbumMapper.*;
-import static com.prgrms.album_market.album.dto.album.AlbumRequest.CreateAlbumReq;
-import static com.prgrms.album_market.album.dto.album.AlbumRequest.UpdateAlbumReq;
-import static com.prgrms.album_market.album.dto.album.AlbumResponse.CreateAlbumRes;
-import static com.prgrms.album_market.album.dto.album.AlbumResponse.GetAlbumRes;
 import static com.prgrms.album_market.common.exception.ErrorCode.*;
 
 @Service
@@ -33,36 +33,36 @@ public class AlbumService {
 
 
     @Transactional
-    public CreateAlbumRes createAlbum(CreateAlbumReq request) {
+    public CreateAlbumResponse createAlbum(CreateAlbumRequest request) {
         if (albumRepository.existsByTitleAndArtist(request.title(), request.artist())) {
             throw new CustomException(ALREADY_EXIST_ALBUM);
         }
         Album savedAlbum = albumRepository.save(toAlbum(request));
-        return toCreateAlbumRes(savedAlbum);
+        return toCreateAlbumResponse(savedAlbum);
     }
 
     @Transactional(readOnly = true)
-    public GetAlbumRes getAlbumById(Long albumId) {
+    public GetAlbumResponse getAlbumById(Long albumId) {
         Album album = getAlbumEntity(albumId);
-        return toGetAlbumRes(album);
+        return toGetAlbumResponse(album);
     }
 
     @Transactional(readOnly = true)
-    public PageResponse<GetAlbumRes> getAllAlbum(Pageable pageable) {
+    public PageResponse<GetAlbumResponse> getAllAlbum(Pageable pageable) {
         Page<Album> pagedAlbums = albumRepository.findAll(pageable);
-        Page<GetAlbumRes> pagedGetAlbumRes = pagedAlbums.map(AlbumMapper::toGetAlbumRes);
-        return PageResponse.fromPage(pagedGetAlbumRes);
+        Page<GetAlbumResponse> pagedGetAlbumResponse = pagedAlbums.map(AlbumMapper::toGetAlbumResponse);
+        return PageResponse.fromPage(pagedGetAlbumResponse);
     }
 
     @Transactional(readOnly = true)
-    public PageResponse<GetAlbumRes> findAlbum(String keyword, Pageable pageable) {
+    public PageResponse<GetAlbumResponse> findAlbum(String keyword, Pageable pageable) {
         Page<Album> pagedAlbums = albumRepository.findByTitleContaining(keyword, pageable);
-        Page<GetAlbumRes> pagedGetAlbumRes = pagedAlbums.map(AlbumMapper::toGetAlbumRes);
+        Page<GetAlbumResponse> pagedGetAlbumRes = pagedAlbums.map(AlbumMapper::toGetAlbumResponse);
         return PageResponse.fromPage(pagedGetAlbumRes);
     }
 
     @Transactional
-    public GetAlbumRes updateAlbum(Long albumId, UpdateAlbumReq request) {
+    public GetAlbumResponse updateAlbum(Long albumId, UpdateAlbumRequest request) {
         Album album = getAlbumEntity(albumId);
         Album updatedAlbum = album.updateAlbumInfo(request.title(),
                 request.artist(),
@@ -70,7 +70,7 @@ public class AlbumService {
                 request.imgUrl(),
                 request.releaseDate(),
                 request.price());
-        return toGetAlbumRes(updatedAlbum);
+        return toGetAlbumResponse(updatedAlbum);
     }
 
     @Transactional
@@ -98,10 +98,10 @@ public class AlbumService {
     }
 
     @Transactional
-    public GetAlbumRes increaseAlbumStock(Long albumId, Integer quantity) {
+    public GetAlbumResponse increaseAlbumStock(Long albumId, Integer quantity) {
         Album album = getAlbumEntity(albumId);
         album.increaseStock(quantity);
-        return toGetAlbumRes(album);
+        return toGetAlbumResponse(album);
     }
 
     @Transactional(readOnly = true)

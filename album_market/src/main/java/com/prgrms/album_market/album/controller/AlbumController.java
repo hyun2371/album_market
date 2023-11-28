@@ -1,5 +1,9 @@
 package com.prgrms.album_market.album.controller;
 
+import com.prgrms.album_market.album.dto.album.request.CreateAlbumRequest;
+import com.prgrms.album_market.album.dto.album.response.CreateAlbumResponse;
+import com.prgrms.album_market.album.dto.album.response.GetAlbumResponse;
+import com.prgrms.album_market.album.dto.album.request.UpdateAlbumRequest;
 import com.prgrms.album_market.album.service.AlbumService;
 import com.prgrms.album_market.common.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,11 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.prgrms.album_market.album.dto.album.AlbumRequest.CreateAlbumReq;
-import static com.prgrms.album_market.album.dto.album.AlbumRequest.UpdateAlbumReq;
-import static com.prgrms.album_market.album.dto.album.AlbumResponse.CreateAlbumRes;
-import static com.prgrms.album_market.album.dto.album.AlbumResponse.GetAlbumRes;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/albums")
@@ -22,36 +21,36 @@ public class AlbumController {
 
     @Operation(summary = "앨범 생성")
     @PostMapping
-    public ResponseEntity<CreateAlbumRes> createAlbum(@Valid @RequestBody CreateAlbumReq request) {
-        CreateAlbumRes response = albumService.createAlbum(request);
+    public ResponseEntity<CreateAlbumResponse> createAlbum(@Valid @RequestBody CreateAlbumRequest request) {
+        CreateAlbumResponse response = albumService.createAlbum(request);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "앨범 아이디로 조회")
     @GetMapping("/{albumId}")
-    public ResponseEntity<GetAlbumRes> getAlbumById(@PathVariable Long albumId) {
-        GetAlbumRes response = albumService.getAlbumById(albumId);
+    public ResponseEntity<GetAlbumResponse> getAlbumById(@PathVariable Long albumId) {
+        GetAlbumResponse response = albumService.getAlbumById(albumId);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "앨범 제목으로 검색")
     @GetMapping("/search")
-    public ResponseEntity<PageResponse<GetAlbumRes>> searchAlbum(@RequestParam String keyword, Pageable pageable) {
-        PageResponse<GetAlbumRes> response = albumService.findAlbum(keyword, pageable);
+    public ResponseEntity<PageResponse<GetAlbumResponse>> searchAlbum(@RequestParam String keyword, Pageable pageable) {
+        PageResponse<GetAlbumResponse> response = albumService.findAlbum(keyword, pageable);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "앨범 모두 조회")
     @GetMapping
-    public ResponseEntity<PageResponse<GetAlbumRes>> getAllAlbum(Pageable pageable) {
-        PageResponse<GetAlbumRes> response = albumService.getAllAlbum(pageable);
+    public ResponseEntity<PageResponse<GetAlbumResponse>> getAllAlbum(Pageable pageable) {
+        PageResponse<GetAlbumResponse> response = albumService.getAllAlbum(pageable);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "앨범 업데이트")
     @PutMapping("/{albumId}")
-    public ResponseEntity<GetAlbumRes> updateAlbum(@PathVariable Long albumId, @RequestBody UpdateAlbumReq request) {
-        GetAlbumRes response = albumService.updateAlbum(albumId, request);
+    public ResponseEntity<GetAlbumResponse> updateAlbum(@PathVariable Long albumId, @RequestBody UpdateAlbumRequest request) {
+        GetAlbumResponse response = albumService.updateAlbum(albumId, request);
         return ResponseEntity.ok(response);
     }
 
@@ -78,8 +77,8 @@ public class AlbumController {
 
     @Operation(summary = "앨범 입고")
     @PostMapping("/{albumId}/stock")
-    public ResponseEntity<GetAlbumRes> increaseAlbumStock(@PathVariable Long albumId, @RequestParam Integer quantity) {
-        GetAlbumRes response = albumService.increaseAlbumStock(albumId, quantity);
+    public ResponseEntity<GetAlbumResponse> increaseAlbumStock(@PathVariable Long albumId, @RequestParam Integer quantity) {
+        GetAlbumResponse response = albumService.increaseAlbumStock(albumId, quantity);
         return ResponseEntity.ok(response);
     }
 

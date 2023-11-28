@@ -6,6 +6,7 @@ import com.prgrms.album_market.common.exception.CustomException;
 import com.prgrms.album_market.common.exception.ErrorCode;
 import com.prgrms.album_market.member.entity.Member;
 import com.prgrms.album_market.member.service.MemberService;
+import com.prgrms.album_market.order.dto.response.CreateOrderResponse;
 import com.prgrms.album_market.order.entity.Order;
 import com.prgrms.album_market.order.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
@@ -17,8 +18,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import static com.prgrms.album_market.album.AlbumFixture.album;
 import static com.prgrms.album_market.member.MemberFixture.member;
-import static com.prgrms.album_market.order.OrderFixture.createOrderReq;
-import static com.prgrms.album_market.order.dto.OrderResponse.CreateOrderRes;
+import static com.prgrms.album_market.order.OrderFixture.createOrderRequest;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -47,7 +47,7 @@ class OrderServiceTest {
         given(memberService.getMemberEntity(1L)).willReturn(member);
         given(albumService.getAlbumEntity(1L)).willReturn(album);
 
-        CreateOrderRes response = orderService.createOrder(createOrderReq(3));//order생성
+        CreateOrderResponse response = orderService.createOrder(createOrderRequest(3));//order생성
 
         assertNotNull(response);
         verify(orderRepository).save(any(Order.class));
@@ -67,7 +67,7 @@ class OrderServiceTest {
 
         //when
         CustomException exception = assertThrows(CustomException.class, ()
-                -> orderService.createOrder(createOrderReq(5)));
+                -> orderService.createOrder(createOrderRequest(5)));
 
         //then
         assertEquals(ErrorCode.OUT_OF_STOCK,exception.getErrorCode());

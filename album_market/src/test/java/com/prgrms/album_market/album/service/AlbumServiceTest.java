@@ -1,7 +1,9 @@
 package com.prgrms.album_market.album.service;
 
 import com.prgrms.album_market.album.AlbumFixture;
-import com.prgrms.album_market.album.dto.album.AlbumResponse.CreateAlbumRes;
+import com.prgrms.album_market.album.dto.album.request.CreateAlbumRequest;
+import com.prgrms.album_market.album.dto.album.response.CreateAlbumResponse;
+import com.prgrms.album_market.album.dto.album.response.GetAlbumResponse;
 import com.prgrms.album_market.album.entity.Album;
 import com.prgrms.album_market.album.entity.AlbumLike;
 import com.prgrms.album_market.album.repository.AlbumLikeRepository;
@@ -24,9 +26,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
-import static com.prgrms.album_market.album.AlbumFixture.getCreateAlbumReq;
-import static com.prgrms.album_market.album.dto.album.AlbumRequest.CreateAlbumReq;
-import static com.prgrms.album_market.album.dto.album.AlbumResponse.GetAlbumRes;
+import static com.prgrms.album_market.album.AlbumFixture.createAlbumRequest;
 import static com.prgrms.album_market.member.MemberFixture.member;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -53,19 +53,19 @@ class AlbumServiceTest {
 
     @Test
     void createAlbumSuccess(){
-        CreateAlbumReq dto = AlbumFixture.getCreateAlbumReq();
+        CreateAlbumRequest dto = AlbumFixture.createAlbumRequest();
 
         when(albumRepository.existsByTitleAndArtist(dto.title(), dto.artist())).thenReturn(false);
         when(albumRepository.save(any(Album.class))).thenReturn(ALBUM1);
 
-        CreateAlbumRes createdAlbumRes = albumService.createAlbum(dto);
+        CreateAlbumResponse createdAlbumRes = albumService.createAlbum(dto);
 
         assertEquals(ALBUM1.getId(), createdAlbumRes.createdAlbumId());
     }
 
     @Test
     void createAlbumFail(){
-        CreateAlbumReq dto = getCreateAlbumReq();
+        CreateAlbumRequest dto = createAlbumRequest();
 
         when(albumRepository.existsByTitleAndArtist(dto.title(), dto.artist()))
                 .thenReturn(true);
@@ -95,12 +95,12 @@ class AlbumServiceTest {
     @Test
     void findAlbum(){
         Pageable pageable = PageRequest.of(0, 10);
-        List<Album> albums = AlbumFixture.getAlbums();
+        List<Album> albums = AlbumFixture.albums();
         Page<Album> pagedAlbums = new PageImpl<>(albums, pageable, albums.size());
         when(albumRepository.findByTitleContaining(KEYWORD, pageable))
                 .thenReturn(pagedAlbums);
 
-        PageResponse<GetAlbumRes> pageResponse = albumService.findAlbum(KEYWORD, pageable);
+        PageResponse<GetAlbumResponse> pageResponse = albumService.findAlbum(KEYWORD, pageable);
         assertEquals(albums.size(), pageResponse.getItems().size());
         assertEquals(pagedAlbums.getTotalElements(), pageResponse.getItemSize());
     }

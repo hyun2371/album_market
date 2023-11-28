@@ -1,21 +1,22 @@
 package com.prgrms.album_market.album.dto.album;
 
+import com.prgrms.album_market.album.dto.album.request.CreateAlbumRequest;
+import com.prgrms.album_market.album.dto.album.response.CreateAlbumResponse;
+import com.prgrms.album_market.album.dto.album.response.GetAlbumResponse;
 import com.prgrms.album_market.album.entity.Album;
 import lombok.NoArgsConstructor;
 
-import static com.prgrms.album_market.album.dto.album.AlbumResponse.CreateAlbumRes;
-import static com.prgrms.album_market.album.dto.album.AlbumResponse.GetAlbumRes;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
 public class AlbumMapper {
     // entity -> dto
-    public static CreateAlbumRes toCreateAlbumRes(Album album) {
-        return new CreateAlbumRes(album.getId());
+    public static CreateAlbumResponse toCreateAlbumResponse(Album album) {
+        return new CreateAlbumResponse(album.getId());
     }
 
-    public static GetAlbumRes toGetAlbumRes(Album album) {
-        return GetAlbumRes.builder()
+    public static GetAlbumResponse toGetAlbumResponse(Album album) {
+        return GetAlbumResponse.builder()
                 .albumId(album.getId())
                 .title(album.getTitle())
                 .artist(album.getArtist())
@@ -29,7 +30,7 @@ public class AlbumMapper {
     }
 
     // dto->entity
-    public static Album toAlbum(AlbumRequest.CreateAlbumReq request) {
+    public static Album toAlbum(CreateAlbumRequest request) {
         return Album.builder()
                 .title(request.title())
                 .artist(request.artist())

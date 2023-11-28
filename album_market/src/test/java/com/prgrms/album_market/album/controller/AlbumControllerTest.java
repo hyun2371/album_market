@@ -1,7 +1,10 @@
 package com.prgrms.album_market.album.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.prgrms.album_market.album.dto.album.AlbumResponse.GetAlbumRes;
+import com.prgrms.album_market.album.dto.album.request.CreateAlbumRequest;
+import com.prgrms.album_market.album.dto.album.response.CreateAlbumResponse;
+import com.prgrms.album_market.album.dto.album.response.GetAlbumResponse;
+import com.prgrms.album_market.album.dto.album.request.UpdateAlbumRequest;
 import com.prgrms.album_market.album.service.AlbumService;
 import com.prgrms.album_market.common.PageResponse;
 import org.junit.jupiter.api.Test;
@@ -17,9 +20,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import java.util.List;
 
 import static com.prgrms.album_market.album.AlbumFixture.*;
-import static com.prgrms.album_market.album.dto.album.AlbumRequest.CreateAlbumReq;
-import static com.prgrms.album_market.album.dto.album.AlbumRequest.UpdateAlbumReq;
-import static com.prgrms.album_market.album.dto.album.AlbumResponse.CreateAlbumRes;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -43,8 +43,8 @@ class AlbumControllerTest {
 
     @Test
     void createAlbum() throws Exception {
-        CreateAlbumReq requestDto = getCreateAlbumReq();
-        CreateAlbumRes responseDto = getCreateAlbumRes();
+        CreateAlbumRequest requestDto = createAlbumRequest();
+        CreateAlbumResponse responseDto = createAlbumRes();
 
         given(albumService.createAlbum(requestDto)).willReturn(responseDto);
 
@@ -60,8 +60,8 @@ class AlbumControllerTest {
 
     @Test
     void getAllAlbum() throws Exception {
-        Page<GetAlbumRes> pagedAlbum = new PageImpl<>(List.of(getAlbumRes()));
-        PageResponse<GetAlbumRes> pageResponse = PageResponse.fromPage(pagedAlbum);
+        Page<GetAlbumResponse> pagedAlbum = new PageImpl<>(List.of(getAlbumResponse()));
+        PageResponse<GetAlbumResponse> pageResponse = PageResponse.fromPage(pagedAlbum);
         given(albumService.getAllAlbum(any())).willReturn(pageResponse);
 
         ResultActions response = mockMvc.perform(get("/albums")
@@ -77,7 +77,7 @@ class AlbumControllerTest {
 
     @Test
     void getAlbumById() throws Exception {
-        GetAlbumRes dtoResponse = getAlbumRes();
+        GetAlbumResponse dtoResponse = getAlbumResponse();
         given(albumService.getAlbumById(1L)).willReturn(dtoResponse);
 
         ResultActions response = mockMvc.perform(get("/albums/1")
@@ -98,8 +98,8 @@ class AlbumControllerTest {
 
     @Test
     void updateAlbum() throws Exception {
-        UpdateAlbumReq dtoRequest = getUpdateAlbumReq();
-        GetAlbumRes dtoResponse = getUpdateAlbumRes();
+        UpdateAlbumRequest dtoRequest = UpdateAlbumRequest();
+        GetAlbumResponse dtoResponse = UpdateAlbumResponse();
 
         when(albumService.updateAlbum(1L,dtoRequest)).thenReturn(dtoResponse);
         ResultActions response = mockMvc.perform(put("/albums/1")

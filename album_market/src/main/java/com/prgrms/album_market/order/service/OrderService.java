@@ -8,6 +8,9 @@ import com.prgrms.album_market.common.exception.ErrorCode;
 import com.prgrms.album_market.member.entity.Member;
 import com.prgrms.album_market.member.service.MemberService;
 import com.prgrms.album_market.order.dto.OrderMapper;
+import com.prgrms.album_market.order.dto.request.CreateOrderRequest;
+import com.prgrms.album_market.order.dto.response.CreateOrderResponse;
+import com.prgrms.album_market.order.dto.response.GetOrderResponse;
 import com.prgrms.album_market.order.entity.Order;
 import com.prgrms.album_market.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.prgrms.album_market.order.dto.OrderMapper.*;
-import static com.prgrms.album_market.order.dto.OrderRequest.CreateOrderReq;
-import static com.prgrms.album_market.order.dto.OrderResponse.CreateOrderRes;
-import static com.prgrms.album_market.order.dto.OrderResponse.GetOrderRes;
 
 @Service
 @RequiredArgsConstructor
@@ -29,45 +29,45 @@ public class OrderService {
     private final AlbumService albumService;
 
     @Transactional
-    public CreateOrderRes createOrder(CreateOrderReq request) {
+    public CreateOrderResponse createOrder(CreateOrderRequest request) {
         Member member = memberService.getMemberEntity(request.memberId());
         Album album = albumService.getAlbumEntity(request.albumId());
         Order order = toOrder(member, album, request.quantity());
         orderRepository.save(order);
 
-        return toCreateOrderRes(order);
+        return toCreateOrderResponse(order);
     }
 
     @Transactional(readOnly = true)
-    public PageResponse<GetOrderRes> getOrders(Pageable pageable) {
+    public PageResponse<GetOrderResponse> getOrders(Pageable pageable) {
         Page<Order> pagedOrders = orderRepository.findAll(pageable);
-        Page<GetOrderRes> pagedGetOrderRes = pagedOrders.map(OrderMapper::toGetOrderRes);
+        Page<GetOrderResponse> pagedGetOrderRes = pagedOrders.map(OrderMapper::toGetOrderResponse);
         return PageResponse.fromPage(pagedGetOrderRes);
     }
 
     @Transactional(readOnly = true)
-    public PageResponse<GetOrderRes> getMemberOrders(Long memberId, Pageable pageable) {
+    public PageResponse<GetOrderResponse> getMemberOrders(Long memberId, Pageable pageable) {
         Member member = memberService.getMemberEntity(memberId);
         Page<Order> pagedMemberOrders = orderRepository.findByMember(member, pageable);
-        Page<GetOrderRes> pagedGetOrderRes = pagedMemberOrders.map(OrderMapper::toGetOrderRes);
+        Page<GetOrderResponse> pagedGetOrderRes = pagedMemberOrders.map(OrderMapper::toGetOrderResponse);
 
         return PageResponse.fromPage(pagedGetOrderRes);
     }
 
     @Transactional
-    public GetOrderRes cancelOrder(Long orderId) {
+    public GetOrderResponse cancelOrder(Long orderId) {
         Order order = getOrderEntity(orderId);
         order.cancelOrder();
 
-        return toGetOrderRes(order);
+        return toGetOrderResponse(order);
     }
 
     @Transactional
-    public GetOrderRes deliverOrder(Long orderId) {
+    public GetOrderResponse deliverOrder(Long orderId) {
         Order order = getOrderEntity(orderId);
         order.deliverOrder();
 
-        return toGetOrderRes(order);
+        return toGetOrderResponse(order);
     }
 
     @Transactional

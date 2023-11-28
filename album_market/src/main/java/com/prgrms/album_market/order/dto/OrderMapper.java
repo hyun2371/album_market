@@ -2,13 +2,11 @@ package com.prgrms.album_market.order.dto;
 
 import com.prgrms.album_market.album.entity.Album;
 import com.prgrms.album_market.member.entity.Member;
+import com.prgrms.album_market.order.dto.response.CreateOrderResponse;
+import com.prgrms.album_market.order.dto.response.GetOrderResponse;
 import com.prgrms.album_market.order.entity.Order;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.prgrms.album_market.order.dto.OrderResponse.*;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
@@ -21,12 +19,12 @@ public class OrderMapper {
                 .build();
     }
 
-    public static CreateOrderRes toCreateOrderRes(Order order) {
-        return new CreateOrderRes(order.getId());
+    public static CreateOrderResponse toCreateOrderResponse(Order order) {
+        return new CreateOrderResponse(order.getId());
     }
 
-    public static GetOrderRes toGetOrderRes(Order order) {
-        return GetOrderRes.builder()
+    public static GetOrderResponse toGetOrderResponse(Order order) {
+        return GetOrderResponse.builder()
                 .orderId(order.getId())
                 .albumId(order.getAlbum().getId())
                 .albumTitle(order.getAlbum().getTitle())
@@ -36,13 +34,5 @@ public class OrderMapper {
                 .totalPrice(order.getTotalPrice())
                 .orderStatus(order.getOrderStatus().toString())
                 .build();
-    }
-
-    public static GetOrderListRes toGetOrderListRes(List<Order> orders) {
-        List<GetOrderRes> list = new ArrayList<>();
-        for (Order order : orders) {
-            list.add(toGetOrderRes(order));
-        }
-        return new GetOrderListRes(list);
     }
 }

@@ -1,14 +1,14 @@
 package com.prgrms.album_market.album;
 
+import com.prgrms.album_market.album.dto.album.request.CreateAlbumRequest;
+import com.prgrms.album_market.album.dto.album.response.CreateAlbumResponse;
+import com.prgrms.album_market.album.dto.album.response.GetAlbumResponse;
+import com.prgrms.album_market.album.dto.album.request.UpdateAlbumRequest;
 import com.prgrms.album_market.album.entity.Album;
 
 import java.util.List;
 
-import static com.prgrms.album_market.album.dto.album.AlbumMapper.toGetAlbumRes;
-import static com.prgrms.album_market.album.dto.album.AlbumRequest.CreateAlbumReq;
-import static com.prgrms.album_market.album.dto.album.AlbumRequest.UpdateAlbumReq;
-import static com.prgrms.album_market.album.dto.album.AlbumResponse.CreateAlbumRes;
-import static com.prgrms.album_market.album.dto.album.AlbumResponse.GetAlbumRes;
+import static com.prgrms.album_market.album.dto.album.AlbumMapper.toGetAlbumResponse;
 
 public class AlbumFixture {
     private static final String TITLE1 = "folklore";
@@ -46,7 +46,7 @@ public class AlbumFixture {
                 .build();
     }
 
-    public static List<Album> getAlbums(){
+    public static List<Album> albums(){
         Album album1 = album();
         Album album2 = Album.builder()
                 .title(TITLE2)
@@ -59,8 +59,8 @@ public class AlbumFixture {
         return List.of(album1, album2);
     }
 
-    public static CreateAlbumReq getCreateAlbumReq() {
-        return CreateAlbumReq.builder()
+    public static CreateAlbumRequest createAlbumRequest() {
+        return CreateAlbumRequest.builder()
                 .title(TITLE1)
                 .artist(ARTIEST1)
                 .category(CATEGORY1)
@@ -70,12 +70,12 @@ public class AlbumFixture {
                 .build();
     }
 
-    public static GetAlbumRes getAlbumRes(){
-        return toGetAlbumRes(album());
+    public static GetAlbumResponse getAlbumResponse(){
+        return toGetAlbumResponse(album());
     }
 
-    public static GetAlbumRes getUpdateAlbumRes() {
-        return GetAlbumRes.builder()
+    public static GetAlbumResponse UpdateAlbumResponse() {
+        return GetAlbumResponse.builder()
                 .title(TITLE2)
                 .artist(ARTIEST2)
                 .category(CATEGORY2)
@@ -84,8 +84,8 @@ public class AlbumFixture {
                 .price(PRICE2)
                 .build();
     }
-    public static UpdateAlbumReq getUpdateAlbumReq(){
-        return UpdateAlbumReq.builder()
+    public static UpdateAlbumRequest UpdateAlbumRequest(){
+        return UpdateAlbumRequest.builder()
                 .title(TITLE2)
                 .artist(ARTIEST2)
                 .category(CATEGORY2)
@@ -95,8 +95,8 @@ public class AlbumFixture {
                 .build();
     }
 
-    public static CreateAlbumRes getCreateAlbumRes(){
-        return new CreateAlbumRes(1L);
+    public static CreateAlbumResponse createAlbumRes(){
+        return new CreateAlbumResponse(1L);
     }
 
 

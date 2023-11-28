@@ -1,6 +1,9 @@
 package com.prgrms.album_market.member.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.prgrms.album_market.member.dto.request.SignUpRequest;
+import com.prgrms.album_market.member.dto.response.GetMemberListResponse;
+import com.prgrms.album_market.member.dto.response.SignUpResponse;
 import com.prgrms.album_market.member.service.MemberService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static com.prgrms.album_market.member.MemberFixture.*;
-import static com.prgrms.album_market.member.dto.MemberRequest.SignUpReq;
-import static com.prgrms.album_market.member.dto.MemberResponse.GetMemberListRes;
-import static com.prgrms.album_market.member.dto.MemberResponse.SignUpRes;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -34,8 +34,8 @@ class MemberControllerTest {
 
     @Test
     void createMember() throws Exception {
-        SignUpRes responseDto = getSignUpRes();
-        SignUpReq requestDto = getSignUpReq();
+        SignUpResponse responseDto = getSignUpRes();
+        SignUpRequest requestDto = getSignUpReq();
 
         given(memberService.signUp(requestDto)).willReturn(responseDto);
 
@@ -49,7 +49,7 @@ class MemberControllerTest {
 
     @Test
     void getAllMember() throws Exception {
-        GetMemberListRes responseDTO = getMemberListRes();
+        GetMemberListResponse responseDTO = getMemberListRes();
         given(memberService.getMembers()).willReturn(responseDTO);
 
         ResultActions response = mockMvc.perform(get("/members")

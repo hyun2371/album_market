@@ -1,6 +1,13 @@
 package com.prgrms.album_market.member.service;
 
 import com.prgrms.album_market.common.exception.CustomException;
+import com.prgrms.album_market.member.dto.request.LoginRequest;
+import com.prgrms.album_market.member.dto.request.SignUpRequest;
+import com.prgrms.album_market.member.dto.request.UpdateRequest;
+import com.prgrms.album_market.member.dto.response.GetMemberListResponse;
+import com.prgrms.album_market.member.dto.response.GetMemberResponse;
+import com.prgrms.album_market.member.dto.response.LoginResponse;
+import com.prgrms.album_market.member.dto.response.SignUpResponse;
 import com.prgrms.album_market.member.entity.Member;
 import com.prgrms.album_market.member.repository.MemberRepository;
 import com.prgrms.album_market.order.repository.OrderRepository;
@@ -13,8 +20,6 @@ import java.util.List;
 
 import static com.prgrms.album_market.common.exception.ErrorCode.*;
 import static com.prgrms.album_market.member.dto.MemberMapper.*;
-import static com.prgrms.album_market.member.dto.MemberRequest.*;
-import static com.prgrms.album_market.member.dto.MemberResponse.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,37 +29,37 @@ public class MemberService {
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Transactional
-    public SignUpRes signUp(SignUpReq request) {
+    public SignUpResponse signUp(SignUpRequest request) {
         validateEmail(request.email());
         String encodedPassword = encoder.encode(request.password());
         Member savedMember = memberRepository.save(toMember(request, encodedPassword));
-        return toSignUpRes(savedMember);
+        return toSignUpResponse(savedMember);
     }
 
     @Transactional
-    public LoginRes login(LoginReq request) {
+    public LoginResponse login(LoginRequest request) {
         Member member = memberRepository.findByEmail(request.email())
                 .orElseThrow(() -> new CustomException(NOT_EXIST_MEMBER_EMAIL));
         if (!encoder.matches(request.password(), member.getPassword())) {
             throw new CustomException(WRONG_MEMBER_PASSWORD);
         }
-        return toLoginRes(member);
+        return toLoginResponse(member);
     }
 
     @Transactional(readOnly = true)
-    public GetMemberRes getMemberById(Long memberId) {
+    public GetMemberResponse getMemberById(Long memberId) {
         Member member = getMemberEntity(memberId);
-        return toGetMemberRes(member);
+        return toGetMemberResponse(member);
     }
 
     @Transactional(readOnly = true)
-    public GetMemberListRes getMembers() {
+    public GetMemberListResponse getMembers() {
         List<Member> members = memberRepository.findAll();
 
         return toGetMemberListRes(members);
     }
     @Transactional
-    public GetMemberRes updateMember(Long memberId, UpdateReq request) {
+    public GetMemberResponse updateMember(Long memberId, UpdateRequest request) {
         Member member = getMemberEntity(memberId);
         if (!request.email().equals(member.getEmail())){
             validateEmail(request.email());
@@ -68,7 +73,7 @@ public class MemberService {
                 request.street(),
                 request.zipcode());
 
-        return toGetMemberRes(updatedMember);
+        return toGetMemberResponse(updatedMember);
     }
 
     @Transactional
@@ -79,10 +84,10 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public BalanceRes chargeMoney(Long memberId, int amount) {
+    public GetMemberResponse chargeMoney(Long memberId, int amount) {
         Member member = getMemberEntity(memberId);
         int balance = member.chargeMoney(amount);
-        return toBalanceRes(balance);
+        return toGetMemberResponse(member);
     }
 
     @Transactional(readOnly = true)

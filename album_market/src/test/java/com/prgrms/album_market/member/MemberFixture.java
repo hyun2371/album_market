@@ -1,14 +1,17 @@
 package com.prgrms.album_market.member;
 
-import com.prgrms.album_market.member.dto.MemberRequest;
+import com.prgrms.album_market.member.dto.request.SignUpRequest;
+import com.prgrms.album_market.member.dto.response.GetMemberListResponse;
+import com.prgrms.album_market.member.dto.response.GetMemberResponse;
+import com.prgrms.album_market.member.dto.response.SignUpResponse;
 import com.prgrms.album_market.member.entity.Address;
 import com.prgrms.album_market.member.entity.Member;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.prgrms.album_market.member.dto.MemberMapper.*;
-import static com.prgrms.album_market.member.dto.MemberResponse.*;
+import static com.prgrms.album_market.member.dto.MemberMapper.toGetMemberListRes;
+import static com.prgrms.album_market.member.dto.MemberMapper.toGetMemberResponse;
 public class MemberFixture {
     private static final String EMAIL1 = "hyun1@gmail.com";
     private static final String PASSWORD = "ddd123!!";
@@ -29,12 +32,12 @@ public class MemberFixture {
                 new Address(CITY, STREET, ZIPCODE));
     }
 
-    public static SignUpRes getSignUpRes(){
-        return new SignUpRes(1L);
+    public static SignUpResponse getSignUpRes(){
+        return new SignUpResponse(1L);
     }
 
-    public static MemberRequest.SignUpReq getSignUpReq(){
-        return MemberRequest.SignUpReq.builder()
+    public static SignUpRequest getSignUpReq(){
+        return SignUpRequest.builder()
                 .email(EMAIL1)
                 .password(PASSWORD)
                 .name(NAME)
@@ -45,11 +48,11 @@ public class MemberFixture {
                 .build();
     }
 
-    public static GetMemberRes getMemberRes(){
-        return toGetMemberRes(member(EMAIL1));
+    public static GetMemberResponse getMemberRes(){
+        return toGetMemberResponse(member(EMAIL1));
     }
 
-    public static GetMemberListRes getMemberListRes(){
+    public static GetMemberListResponse getMemberListRes(){
         List<Member> members = new ArrayList<>();
         members.add(member(EMAIL1));
         members.add(member( EMAIL2));

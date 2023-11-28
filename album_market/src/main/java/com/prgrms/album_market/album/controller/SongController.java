@@ -1,15 +1,14 @@
 package com.prgrms.album_market.album.controller;
 
+import com.prgrms.album_market.album.dto.song.request.CreateSongRequest;
+import com.prgrms.album_market.album.dto.song.response.CreateSongResponse;
+import com.prgrms.album_market.album.dto.song.response.GetSongListResponse;
 import com.prgrms.album_market.album.service.SongService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import static com.prgrms.album_market.album.dto.song.SongRequest.CreateSongReq;
-import static com.prgrms.album_market.album.dto.song.SongResponse.CreateSongRes;
-import static com.prgrms.album_market.album.dto.song.SongResponse.GetSongListRes;
 
 @RestController
 @RequestMapping("/songs")
@@ -19,15 +18,15 @@ public class SongController {
 
     @Operation(summary = "노래 생성")
     @PostMapping
-    public ResponseEntity<CreateSongRes> createSong(@Valid @RequestBody CreateSongReq request) {
-        CreateSongRes response = songService.createSong(request);
+    public ResponseEntity<CreateSongResponse> createSong(@Valid @RequestBody CreateSongRequest request) {
+        CreateSongResponse response = songService.createSong(request);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "앨범 노래 조회")
     @GetMapping("/{albumId}")
-    public ResponseEntity<GetSongListRes> getAlbumSongs(@PathVariable Long albumId) {
-        GetSongListRes response = songService.getAlbumSongs(albumId);
+    public ResponseEntity<GetSongListResponse> getAlbumSongs(@PathVariable Long albumId) {
+        GetSongListResponse response = songService.getAlbumSongs(albumId);
         return ResponseEntity.ok(response);
     }
 }

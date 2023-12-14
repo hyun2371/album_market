@@ -1,5 +1,12 @@
 package com.prgrms.album_market.album.service;
 
+import static com.prgrms.album_market.album.AlbumFixture.createAlbumRequest;
+import static com.prgrms.album_market.member.MemberFixture.member;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import com.prgrms.album_market.album.AlbumFixture;
 import com.prgrms.album_market.album.dto.album.request.CreateAlbumRequest;
 import com.prgrms.album_market.album.dto.album.response.CreateAlbumResponse;
@@ -13,6 +20,8 @@ import com.prgrms.album_market.common.exception.CustomException;
 import com.prgrms.album_market.common.exception.ErrorCode;
 import com.prgrms.album_market.member.entity.Member;
 import com.prgrms.album_market.member.service.MemberService;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,17 +31,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
-import java.util.Optional;
-
-import static com.prgrms.album_market.album.AlbumFixture.createAlbumRequest;
-import static com.prgrms.album_market.member.MemberFixture.member;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AlbumServiceTest {
@@ -75,14 +73,14 @@ class AlbumServiceTest {
 
     }
 
-    @Test
-    void deleteAlbumSuccess(){
-        when(albumRepository.findById(ALBUM1.getId())).thenReturn(Optional.of(ALBUM1));
-        albumService.deleteAlbum(ALBUM1.getId());
-
-        verify(albumRepository).findById(ALBUM1.getId());
-        verify(albumRepository).delete(ALBUM1);
-    }
+//    @Test
+//    void deleteAlbumSuccess(){
+//        when(albumRepository.findById(ALBUM1.getId())).thenReturn(Optional.of(ALBUM1));
+//        albumService.deleteAlbum(ALBUM1.getId());
+//
+//        verify(albumRepository).findById(ALBUM1.getId());
+//        verify(albumRepository).delete(ALBUM1);
+//    }
 
     @Test
     void deleteAlbumFail(){

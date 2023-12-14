@@ -1,0 +1,11 @@
+[[product-create]]
+=== 신규 상품 등록
+
+==== HTTP Request
+include::{snippets}/album-create/http-request.adoc[]
+include::{snippets}/album-create/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/album-create/http-response.adoc[]
+include::{snippets}/album-create/response-fields.adoc[]

@@ -1,5 +1,15 @@
 package com.prgrms.album_market.member.service;
 
+import static com.prgrms.album_market.common.exception.ErrorCode.*;
+import static com.prgrms.album_market.member.dto.MemberMapper.*;
+
+import java.util.List;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.prgrms.album_market.album.repository.AlbumLikeRepository;
 import com.prgrms.album_market.common.exception.CustomException;
 import com.prgrms.album_market.member.dto.request.LoginRequest;
 import com.prgrms.album_market.member.dto.request.SignUpRequest;
@@ -11,21 +21,15 @@ import com.prgrms.album_market.member.dto.response.SignUpResponse;
 import com.prgrms.album_market.member.entity.Member;
 import com.prgrms.album_market.member.repository.MemberRepository;
 import com.prgrms.album_market.order.repository.OrderRepository;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import static com.prgrms.album_market.common.exception.ErrorCode.*;
-import static com.prgrms.album_market.member.dto.MemberMapper.*;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
     private final OrderRepository orderRepository;
+    private final AlbumLikeRepository albumLikeRepository;
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Transactional
@@ -79,6 +83,7 @@ public class MemberService {
     @Transactional
     public void deleteMember(Long memberId) {
         Member member = getMemberEntity(memberId);
+        albumLikeRepository.deleteByMember(member);
         orderRepository.deleteByMember(member);
         memberRepository.delete(member);
     }
@@ -86,7 +91,7 @@ public class MemberService {
     @Transactional(readOnly = true)
     public GetMemberResponse chargeMoney(Long memberId, int amount) {
         Member member = getMemberEntity(memberId);
-        int balance = member.chargeMoney(amount);
+        member.chargeMoney(amount);
         return toGetMemberResponse(member);
     }
 

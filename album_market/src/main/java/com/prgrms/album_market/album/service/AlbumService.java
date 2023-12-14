@@ -1,6 +1,14 @@
 package com.prgrms.album_market.album.service;
 
-import com.prgrms.album_market.album.dto.album.*;
+import static com.prgrms.album_market.album.dto.album.AlbumMapper.*;
+import static com.prgrms.album_market.common.exception.ErrorCode.*;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.prgrms.album_market.album.dto.album.AlbumMapper;
 import com.prgrms.album_market.album.dto.album.request.CreateAlbumRequest;
 import com.prgrms.album_market.album.dto.album.request.UpdateAlbumRequest;
 import com.prgrms.album_market.album.dto.album.response.CreateAlbumResponse;
@@ -14,14 +22,8 @@ import com.prgrms.album_market.common.PageResponse;
 import com.prgrms.album_market.common.exception.CustomException;
 import com.prgrms.album_market.member.entity.Member;
 import com.prgrms.album_market.member.service.MemberService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import static com.prgrms.album_market.album.dto.album.AlbumMapper.*;
-import static com.prgrms.album_market.common.exception.ErrorCode.*;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -77,6 +79,7 @@ public class AlbumService {
     public void deleteAlbum(Long albumId) {
         Album album = getAlbumEntity(albumId);
         songRepository.deleteByAlbum(album);
+        albumLikeRepository.deleteByAlbum(album);
         albumRepository.delete(album);
     }
 

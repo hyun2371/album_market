@@ -48,12 +48,11 @@ public class Member extends BaseEntity {
         balance -= amount;
     }
 
-    public int chargeMoney(int amount) {
+    public void chargeMoney(int amount) {
         if (amount < 1000) {//total price받고 0.1*
             throw new CustomException(INVALID_FORMAT_MONEY);
         }
         balance += amount;
-        return balance;
     }
     public void refundMoney(int amount){
         balance += amount;

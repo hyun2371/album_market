@@ -55,7 +55,6 @@ class AlbumServiceTest {
         CreateAlbumRequest dto = AlbumFixture.createAlbumRequest();
 
         when(albumRepository.existsByTitleAndArtist(dto.title(), dto.artist())).thenReturn(false);
-        when(albumRepository.save(any(Album.class))).thenReturn(ALBUM1);
 
         CreateAlbumResponse createdAlbumRes = albumService.createAlbum(dto);
 

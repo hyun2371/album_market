@@ -34,6 +34,7 @@ import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 class AlbumServiceTest {
+
     private static final Album ALBUM1 = AlbumFixture.album();
     private static final String KEYWORD = "f";
 
@@ -50,7 +51,7 @@ class AlbumServiceTest {
     private AlbumService albumService;
 
     @Test
-    void createAlbumSuccess(){
+    void createAlbumSuccess() {
         CreateAlbumRequest dto = AlbumFixture.createAlbumRequest();
 
         when(albumRepository.existsByTitleAndArtist(dto.title(), dto.artist())).thenReturn(false);
@@ -62,14 +63,15 @@ class AlbumServiceTest {
     }
 
     @Test
-    void createAlbumFail(){
+    void createAlbumFail() {
         CreateAlbumRequest dto = createAlbumRequest();
 
         when(albumRepository.existsByTitleAndArtist(dto.title(), dto.artist()))
-                .thenReturn(true);
+            .thenReturn(true);
 
-        CustomException exception = assertThrows(CustomException.class, () -> albumService.createAlbum(dto));
-        assertEquals(ErrorCode.ALREADY_EXIST_ALBUM,exception.getErrorCode());
+        CustomException exception = assertThrows(CustomException.class,
+            () -> albumService.createAlbum(dto));
+        assertEquals(ErrorCode.ALREADY_EXIST_ALBUM, exception.getErrorCode());
 
     }
 
@@ -83,20 +85,20 @@ class AlbumServiceTest {
 //    }
 
     @Test
-    void deleteAlbumFail(){
+    void deleteAlbumFail() {
         when(albumRepository.findById(ALBUM1.getId())).thenReturn(Optional.empty());
         CustomException exception = assertThrows(CustomException.class, ()
-                -> albumService.deleteAlbum(ALBUM1.getId()));
-        assertEquals(ErrorCode.NOT_EXISTS_ALBUM_ID,exception.getErrorCode());
+            -> albumService.deleteAlbum(ALBUM1.getId()));
+        assertEquals(ErrorCode.NOT_EXISTS_ALBUM_ID, exception.getErrorCode());
     }
 
     @Test
-    void findAlbum(){
+    void findAlbum() {
         Pageable pageable = PageRequest.of(0, 10);
         List<Album> albums = AlbumFixture.albums();
         Page<Album> pagedAlbums = new PageImpl<>(albums, pageable, albums.size());
         when(albumRepository.findByTitleContaining(KEYWORD, pageable))
-                .thenReturn(pagedAlbums);
+            .thenReturn(pagedAlbums);
 
         PageResponse<GetAlbumResponse> pageResponse = albumService.findAlbum(KEYWORD, pageable);
         assertEquals(albums.size(), pageResponse.getItems().size());
@@ -104,9 +106,9 @@ class AlbumServiceTest {
     }
 
     @Test
-    void likeAlbum(){
+    void likeAlbum() {
         Member member = member("hyun@gmail.com");
-        AlbumLike albumLike = new AlbumLike(ALBUM1,member);
+        AlbumLike albumLike = new AlbumLike(ALBUM1, member);
         when(memberService.getMemberEntity(member.getId())).thenReturn(member);
         when(albumRepository.findById(ALBUM1.getId())).thenReturn(Optional.of(ALBUM1));
         when(albumLikeRepository.save(any(AlbumLike.class))).thenReturn(albumLike);

@@ -1,5 +1,16 @@
 package com.prgrms.album_market.member.controller;
 
+import static com.prgrms.album_market.member.MemberFixture.getMemberListRes;
+import static com.prgrms.album_market.member.MemberFixture.getSignUpReq;
+import static com.prgrms.album_market.member.MemberFixture.getSignUpRes;
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prgrms.album_market.member.dto.request.SignUpRequest;
 import com.prgrms.album_market.member.dto.response.GetMemberListResponse;
@@ -12,17 +23,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static com.prgrms.album_market.member.MemberFixture.*;
-import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @WebMvcTest(controllers = MemberController.class)
 class MemberControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -40,11 +43,11 @@ class MemberControllerTest {
         given(memberService.signUp(requestDto)).willReturn(responseDto);
 
         ResultActions response = mockMvc.perform(post("/members")
-                .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(requestDto)));
+            .contentType(APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(requestDto)));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.createdMemberId", is(responseDto.createdMemberId().intValue())));
+            .andExpect(jsonPath("$.createdMemberId", is(responseDto.createdMemberId().intValue())));
     }
 
     @Test
@@ -53,10 +56,10 @@ class MemberControllerTest {
         given(memberService.getMembers()).willReturn(responseDTO);
 
         ResultActions response = mockMvc.perform(get("/members")
-                .contentType(APPLICATION_JSON));
+            .contentType(APPLICATION_JSON));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.members[0].email",
-                        is(responseDTO.members().get(0).email())));
+            .andExpect(jsonPath("$.members[0].email",
+                is(responseDTO.members().get(0).email())));
     }
 }

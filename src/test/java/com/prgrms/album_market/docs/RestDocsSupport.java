@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @ExtendWith(RestDocumentationExtension.class)
 public abstract class RestDocsSupport {
+
     protected MockMvc mockMvc;
     protected ObjectMapper objectMapper = new ObjectMapper();
 

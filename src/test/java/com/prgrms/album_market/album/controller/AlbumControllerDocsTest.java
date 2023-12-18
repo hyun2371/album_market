@@ -24,7 +24,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 class AlbumControllerDocsTest extends RestDocsSupport {
+
     private final AlbumService albumService = mock(AlbumService.class);
+
     @Override
     protected Object initController() {
         return new AlbumController(albumService);
@@ -51,7 +53,7 @@ class AlbumControllerDocsTest extends RestDocsSupport {
                     fieldWithPath("artist").type(JsonFieldType.STRING)
                         .description("아티스트"),
                     fieldWithPath("category").type(JsonFieldType.STRING)
-                            .description("카테고리"),
+                        .description("카테고리"),
                     fieldWithPath("imgUrl").type(JsonFieldType.STRING)
                         .description("이미지 url 주소"),
                     fieldWithPath("releaseDate").type(JsonFieldType.STRING)

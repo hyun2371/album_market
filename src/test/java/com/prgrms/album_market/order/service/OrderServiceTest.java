@@ -1,5 +1,15 @@
 package com.prgrms.album_market.order.service;
 
+import static com.prgrms.album_market.album.AlbumFixture.album;
+import static com.prgrms.album_market.member.MemberFixture.member;
+import static com.prgrms.album_market.order.OrderFixture.createOrderRequest;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+
 import com.prgrms.album_market.album.entity.Album;
 import com.prgrms.album_market.album.service.AlbumService;
 import com.prgrms.album_market.common.exception.CustomException;
@@ -16,16 +26,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import static com.prgrms.album_market.album.AlbumFixture.album;
-import static com.prgrms.album_market.member.MemberFixture.member;
-import static com.prgrms.album_market.order.OrderFixture.createOrderRequest;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
+
     @Mock
     private OrderRepository orderRepository;
     @Mock
@@ -37,12 +40,12 @@ class OrderServiceTest {
     private OrderService orderService;
 
     @Test
-    void createOrderSuccess(){
+    void createOrderSuccess() {
         Member member = member();
         ReflectionTestUtils.setField(member, "balance", 500000);
 
         Album album = album(21000);
-        ReflectionTestUtils.setField(album, "stock",4);
+        ReflectionTestUtils.setField(album, "stock", 4);
 
         given(memberService.getMemberEntity(1L)).willReturn(member);
         given(albumService.getAlbumEntity(1L)).willReturn(album);
@@ -54,22 +57,22 @@ class OrderServiceTest {
     }
 
     @Test
-    void createOrderFail(){
+    void createOrderFail() {
         //given
         Member member = member();
         ReflectionTestUtils.setField(member, "balance", 500000);
 
         Album album = album(21000);
-        ReflectionTestUtils.setField(album, "stock",1);
+        ReflectionTestUtils.setField(album, "stock", 1);
 
         given(memberService.getMemberEntity(1L)).willReturn(member);
         given(albumService.getAlbumEntity(1L)).willReturn(album);
 
         //when
         CustomException exception = assertThrows(CustomException.class, ()
-                -> orderService.createOrder(createOrderRequest(5)));
+            -> orderService.createOrder(createOrderRequest(5)));
 
         //then
-        assertEquals(ErrorCode.OUT_OF_STOCK,exception.getErrorCode());
+        assertEquals(ErrorCode.OUT_OF_STOCK, exception.getErrorCode());
     }
 }
